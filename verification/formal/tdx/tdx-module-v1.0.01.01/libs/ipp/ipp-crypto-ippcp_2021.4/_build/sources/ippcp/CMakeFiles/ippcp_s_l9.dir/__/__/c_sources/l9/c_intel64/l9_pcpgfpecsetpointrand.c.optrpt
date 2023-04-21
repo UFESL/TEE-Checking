@@ -1,0 +1,26 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: l9_ippsGFpECSetPointRandom(IppsGFpECPoint *, IppsGFpECState *, IppBitSupplier, void *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpgfpecsetpointrand.c(86,30)
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpgfpecsetpointrand.c(98,17)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpgfpecsetpointrand.c(98,17)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpgfpecsetpointrand.c(98,17)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================

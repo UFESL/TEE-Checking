@@ -1,0 +1,195 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: ippsDLPValidateDH(int, IppDLResult *, IppsDLPState *, IppBitSupplier, void *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Alternate Alignment Vectorized Loop, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(144,16)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(112,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(169,7)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(170,14)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(170,14)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(112,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(174,7)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(175,14)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(175,14)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(112,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(186,7)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(187,14)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(187,14)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(112,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(191,7)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(192,14)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(192,14)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Alternate Alignment Vectorized Loop, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(157,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(198,7)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(199,17)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(199,17)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(200,17)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_pcpdlpvalidatedh.c(200,17)
+<Remainder>
+LOOP END
+===========================================================================

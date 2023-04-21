@@ -1,0 +1,51 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: l9_cpSMS4_ECB_aesni(Ipp8u *, const Ipp8u *, int, const Ipp32u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(65,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(65,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(75,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(75,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(85,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(85,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(95,7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between TMP[5] (98:19) and TMP[5] (132:20)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(184,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(184,37) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(194,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(194,38) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(204,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(204,38) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(215,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(216,16) ]
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsms4ecbl9cn.c(62,4)
+   remark #15533: loop was not vectorized: loop exceeds complexity limits. Consider overriding limits (-override-limits) or using simd directive.
+LOOP END
+===========================================================================

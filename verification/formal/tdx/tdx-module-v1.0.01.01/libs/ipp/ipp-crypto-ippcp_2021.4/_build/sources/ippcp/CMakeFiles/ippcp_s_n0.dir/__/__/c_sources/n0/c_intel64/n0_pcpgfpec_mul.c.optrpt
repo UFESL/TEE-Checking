@@ -1,0 +1,86 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: n0_gfec_point_mul(BNU_CHUNK_T *, const BNU_CHUNK_T *, const Ipp8u *, int, IppsGFpECState *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(73,7)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(86,10)
+   <Peeled loop for vectorization, Multiversioned v1>
+      remark #15301: PEEL LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(86,10)
+   <Multiversioned v1>
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(86,10)
+   <Remainder loop for vectorization, Multiversioned v1>
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(86,10)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(86,10)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(103,7)
+<Peeled loop for vectorization, Multiversioned v1>
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(103,7)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(103,7)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(103,7)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h(92,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(103,7)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(98,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(106,7)
+<Peeled loop for vectorization, Multiversioned v1>
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(98,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(106,7)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(98,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(106,7)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(98,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(106,7)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpgfpstuff.h(98,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpgfpec_mul.c(106,7)
+<Remainder, Multiversioned v2>
+LOOP END
+===========================================================================

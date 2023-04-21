@@ -1,0 +1,38 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k0_ippsAESEncryptCFB(const Ipp8u *, Ipp8u *, int, int, const IppsAESSpec *, const Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(108,7)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(127,13)
+   <Peeled loop for vectorization, Multiversioned v1>
+      remark #15301: PEEL LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(127,13)
+   <Multiversioned v1>
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(127,13)
+   <Remainder loop for vectorization, Multiversioned v1>
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(127,13)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpaes_cfbencrypt.c(127,13)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+===========================================================================

@@ -1,0 +1,14 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: e9_aes256_KeyExpansion_NI(Ipp8u *, const Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_256keyexpansion_ni.c(123,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_256keyexpansion_ni.c(124,17) ]
+LOOP END
+===========================================================================

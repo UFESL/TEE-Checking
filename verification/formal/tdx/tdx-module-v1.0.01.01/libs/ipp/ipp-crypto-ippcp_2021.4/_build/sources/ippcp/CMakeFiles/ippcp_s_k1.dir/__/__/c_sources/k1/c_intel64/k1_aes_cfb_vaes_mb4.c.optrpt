@@ -1,0 +1,31 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k1_aes_cfb16_enc_vaes_mb4(const Ipp8u *const *, Ipp8u *const *, const int *, const int, const Ipp32u **, const Ipp8u **)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_aes_cfb_vaes_mb4.c(65,2)
+<Distributed chunk2>
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between maxLen (81:3) and maxLen (81:3)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_aes_cfb_vaes_mb4.c(65,2)
+<Distributed chunk1>
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_aes_cfb_vaes_mb4.c(98,5)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between tmpKeyMb (100:20) and tmpKeyMb (103:20)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_aes_cfb_vaes_mb4.c(108,2)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between mbMask[0] (111:16) and mbMask[0] (132:117)
+LOOP END
+===========================================================================

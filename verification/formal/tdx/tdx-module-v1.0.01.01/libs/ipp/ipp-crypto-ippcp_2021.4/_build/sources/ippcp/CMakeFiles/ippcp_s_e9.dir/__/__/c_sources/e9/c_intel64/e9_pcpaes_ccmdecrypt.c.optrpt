@@ -1,0 +1,158 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: e9_ippsAES_CCMDecrypt(const Ipp8u *, Ipp8u *, int, IppsAES_CCMState *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(95,10)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(95,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(95,10)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(95,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(95,10)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(98,10)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(98,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(98,10)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(98,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(98,10)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(126,13)
+   remark #15315: loop was not vectorized: estimated number of iterations (15) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(126,13)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(127,13)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(127,13)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(128,13)
+   remark #15315: loop was not vectorized: estimated number of iterations (8) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(128,13)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(129,13)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(130,13)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(136,13)
+   remark #15301: FUSED LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(137,13)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(147,7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between counterEnc[0] (84:4) and MAC (169:10)
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(151,10)
+      remark #15315: loop was not vectorized: estimated number of iterations (8) is insufficient for vectorization
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(151,10)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(182,10)
+   remark #15315: loop was not vectorized: estimated number of iterations (8) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(182,10)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(192,10)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(192,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(192,10)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(192,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(123,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(192,10)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(198,10)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(198,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(198,10)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(198,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_pcpaes_ccmdecrypt.c(198,10)
+<Remainder, Multiversioned v2>
+LOOP END
+===========================================================================

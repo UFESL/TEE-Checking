@@ -1,0 +1,29 @@
+sources/ippcp/CMakeFiles/ippcp_s_n0.dir/__/__/c_sources/n0/c_intel64/n0_pcpmont_expbinbnu_sscm.c.o: \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_expbinbnu_sscm.c \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/include/owndefs.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/include/ippcpdefs.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/immintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/wmmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/nmmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/smmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/tmmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/pmmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/emmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/xmmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/mmintrin.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/stddef.h \
+ /home/hasini/intel/oneapi/compiler/2022.2.1/linux/bin/intel64/../../compiler/include/icc/zmmintrin.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/owncp.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/include/autogen/ippcp_cpuspc.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/include/ippcp.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpvariant.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnuimpl.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnuarith.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnu32arith.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmask_ct.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnu32misc.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/gsmodstuff.h \
+ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/gsmodmethod.h

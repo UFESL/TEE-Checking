@@ -1,0 +1,207 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k0_ippsDLPGenerateDH(const IppsBigNumState *, int, IppsDLPState *, IppsBigNumState *, int *, IppBitSupplier, void *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(122,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(122,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(164,10)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(174,16)
+      remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(174,16)
+      remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(85,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(180,13)
+      remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(181,13)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(198,16)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(198,16)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(112,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(238,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(243,10)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(85,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(247,13)
+      remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(248,13)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between pSeed1->size (250:37) and shaDgst1 (253:16)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(283,19)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(283,19)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(303,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(303,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Peeled loop for vectorization, Multiversioned v1>
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Peeled loop for vectorization>
+   remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Remainder loop for vectorization>
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between zscan (98:7) and zscan (98:7)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(313,10)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(319,10)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(323,13)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between zscan (98:7) and zscan (98:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(323,13)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(328,18)
+   <Peeled loop for vectorization>
+      remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(328,18)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(187,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(328,18)
+   <Remainder loop for vectorization>
+      remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+   <Peeled loop for vectorization>
+      remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(142,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+   <Remainder loop for vectorization>
+      remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between zscan (98:7) and zscan (98:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(329,16)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(330,16)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between zscan (98:7) and zscan (98:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(97,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(330,16)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(331,20)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between borrow (146:64) and borrow (148:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbnumisc.h(145,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(331,20)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(339,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpbn.h(77,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k0/c_intel64/k0_pcpdlpgeneratedh.c(339,10)
+   remark #15523: loop was not vectorized: loop control variable __idx was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+===========================================================================

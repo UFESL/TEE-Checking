@@ -1,0 +1,52 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: n8_gsScramblePut(BNU_CHUNK_T *, int, const BNU_CHUNK_T *, int, int)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(45,4)
+<Multiversioned v1>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(45,4)
+<Remainder, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(45,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(45,4)
+<Remainder, Multiversioned v2>
+LOOP END
+===========================================================================
+
+Begin optimization report for: n8_gsScrambleGet(BNU_CHUNK_T *, int, const BNU_CHUNK_T *, int, int)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(54,4)
+<Multiversioned v1>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(54,4)
+<Remainder, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(54,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n8/c_intel64/n8_gsscramble.c(54,4)
+<Remainder, Multiversioned v2>
+LOOP END
+===========================================================================

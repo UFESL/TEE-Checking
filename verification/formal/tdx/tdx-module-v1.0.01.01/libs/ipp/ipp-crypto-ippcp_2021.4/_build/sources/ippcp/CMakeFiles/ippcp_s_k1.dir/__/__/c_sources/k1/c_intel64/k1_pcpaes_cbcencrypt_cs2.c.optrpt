@@ -1,0 +1,26 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k1_ippsAESEncryptCBC_CS2(const Ipp8u *, Ipp8u *, int, const IppsAESSpec *, const Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpaes_cbcencrypt_cs2.c(101,10)
+   remark #15315: loop was not vectorized: estimated number of iterations (15) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpaes_cbcencrypt_cs2.c(101,10)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpaes_cbcencrypt_cs2.c(111,10)
+   remark #15315: loop was not vectorized: estimated number of iterations (15) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(40,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpaes_cbcencrypt_cs2.c(111,10)
+<Remainder>
+LOOP END
+===========================================================================

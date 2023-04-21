@@ -1,0 +1,49 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: m7_ippsSMS4DecryptCBC_CS2(const Ipp8u *, Ipp8u *, int, const IppsSMS4Spec *, const Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(104,10)
+   remark #15315: loop was not vectorized: estimated number of iterations (15) is insufficient for vectorization
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(104,10)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(108,10)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between pSrc[n] (109:14) and pDst[n] (110:13)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Alternate Alignment Vectorized Loop, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpsms4decryptcbc_cs2.c(113,10)
+<Remainder, Multiversioned v2>
+LOOP END
+===========================================================================

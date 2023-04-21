@@ -1,0 +1,26 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: n0_ippsTDESEncryptCBC(const Ipp8u *, Ipp8u *, int, const IppsDESSpec *, const IppsDESSpec *, const IppsDESSpec *, const Ipp8u *, IppsPadding)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(47,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcptdesencryptcbcca.c(93,7)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcptdesencryptcbcca.c(99,10)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(47,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcptdesencryptcbcca.c(101,13)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcptool.h(47,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcptdesencryptcbcca.c(106,13)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+===========================================================================

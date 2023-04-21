@@ -1,0 +1,62 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: m7_cpFastMontMultiExp(BNU_CHUNK_T *, const BNU_CHUNK_T *, const Ipp8u **, cpSize, cpSize, gsModEngine *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(65,4)
+   remark #15523: loop was not vectorized: loop control variable eBitNumber was found, but loop iteration count cannot be computed before executing the loop
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(38,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(66,15)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between index (42:7) and index (42:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(38,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(66,15)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Peeled loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Alternate Alignment Vectorized Loop, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(68,4)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(70,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(38,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(76,16)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between index (42:7) and index (42:7)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(38,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcpmont_multiexp_fast.c(76,16)
+   <Remainder>
+   LOOP END
+LOOP END
+===========================================================================

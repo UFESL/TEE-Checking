@@ -1,0 +1,18 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: e9_gs_mont_inv(BNU_CHUNK_T *, const BNU_CHUNK_T *, gsModEngine *, alm_inv)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_gsmod_montinv.c(41,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_gsmod_montinv.c(76,7)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_gsmod_montinv.c(41,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/e9/c_intel64/e9_gsmod_montinv.c(76,7)
+<Remainder>
+LOOP END
+===========================================================================

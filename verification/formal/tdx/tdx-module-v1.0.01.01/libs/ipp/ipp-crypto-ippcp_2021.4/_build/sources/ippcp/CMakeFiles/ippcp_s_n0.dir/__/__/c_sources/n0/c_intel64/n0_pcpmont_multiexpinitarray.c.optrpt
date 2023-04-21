@@ -1,0 +1,168 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: n0_cpMontMultiExpInitArray(BNU_CHUNK_T *, const BNU_CHUNK_T **, cpSize, cpSize, gsModEngine *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(56,4)
+<Peeled loop for vectorization, Multiversioned v1>
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(56,4)
+<Multiversioned v1>
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(56,4)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(56,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(56,4)
+<Remainder, Multiversioned v2>
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+<Peeled loop for vectorization>
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+<Peeled loop for vectorization>
+   remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(58,4)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(60,4)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+   <Peeled loop for vectorization>
+      remark #15301: PEEL LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+   <Remainder loop for vectorization>
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+   <Peeled loop for vectorization>
+      remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(62,7)
+   <Remainder loop for vectorization>
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(69,10)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(74,13)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Peeled loop for vectorization, Multiversioned v1>
+            remark #15301: PEEL LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Multiversioned v1>
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Remainder loop for vectorization, Multiversioned v1>
+            remark #15301: REMAINDER LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Multiversioned v2>
+            remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Remainder, Multiversioned v2>
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Peeled loop for vectorization>
+            remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(95,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Remainder loop for vectorization>
+            remark #15301: REMAINDER LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Peeled loop for vectorization>
+            remark #15301: PEEL LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Remainder loop for vectorization>
+            remark #15301: REMAINDER LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Peeled loop for vectorization>
+            remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+
+         LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpmontgomery.h(96,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/n0/c_intel64/n0_pcpmont_multiexpinitarray.c(75,16)
+         <Remainder loop for vectorization>
+            remark #15301: REMAINDER LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

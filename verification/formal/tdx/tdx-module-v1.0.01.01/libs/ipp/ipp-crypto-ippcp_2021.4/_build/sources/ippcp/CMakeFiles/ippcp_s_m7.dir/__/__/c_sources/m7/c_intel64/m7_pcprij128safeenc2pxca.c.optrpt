@@ -1,0 +1,42 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: m7_Safe2Encrypt_RIJ128(const Ipp8u *, Ipp8u *, int, const Ipp8u *, const void *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcprij128safe2.h(53,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(92,4)
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(95,4)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(43,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(96,7)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcprij128safe.h(87,3) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(96,7)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcprij128safe2.h(53,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(99,7)
+      remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(43,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(103,4)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcprij128safe.h(87,3) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(103,4)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcprij128safe2.h(53,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/m7/c_intel64/m7_pcprij128safeenc2pxca.c(105,4)
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+LOOP END
+===========================================================================

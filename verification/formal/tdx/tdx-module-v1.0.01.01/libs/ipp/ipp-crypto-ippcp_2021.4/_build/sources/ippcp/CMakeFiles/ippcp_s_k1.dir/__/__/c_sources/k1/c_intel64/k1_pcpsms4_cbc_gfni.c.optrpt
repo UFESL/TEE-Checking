@@ -1,0 +1,261 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k1_cpSMS4_CBC_dec_gfni512(Ipp8u *, const Ipp8u *, int, const Ipp32u *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(73,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(73,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(83,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(83,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(93,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(93,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(103,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(103,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(113,7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between TMP[5] (116:19) and TMP[5] (159:19)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(223,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(234,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(245,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(256,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(269,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(269,37) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(293,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(294,16) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(293,4)
+<Remainder>
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(70,4)
+   remark #15533: loop was not vectorized: loop exceeds complexity limits. Consider overriding limits (-override-limits) or using simd directive.
+LOOP END
+===========================================================================
+
+Begin optimization report for: cpSMS4_CBC_dec_gfni512x48(Ipp8u *, const Ipp8u *, int, const Ipp32u *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(325,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(325,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(335,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(335,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(345,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(345,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(355,7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between TMP[5] (358:19) and TMP[5] (392:19)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(445,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(456,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(467,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(480,7)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(480,37) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(499,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(500,16) ]
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(322,4)
+   remark #15533: loop was not vectorized: loop exceeds complexity limits. Consider overriding limits (-override-limits) or using simd directive.
+LOOP END
+===========================================================================
+
+Begin optimization report for: cpSMS4_CBC_dec_gfni512x32(Ipp8u *, const Ipp8u *, int, const Ipp32u *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(523,4)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(546,7)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between TMP[10] (553:19) and TMP[10] (590:20)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(616,7)
+      remark #15310: loop was not vectorized: operation cannot be vectorized
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(627,7)
+      remark #15310: loop was not vectorized: operation cannot be vectorized
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(640,7)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(640,37) ]
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(526,16)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(526,7) ]
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(536,16)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(536,7) ]
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(654,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(655,16) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(678,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(691,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between TMP[6] (695:19) and TMP[6] (720:19)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(735,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+      remark #15310: loop was not vectorized: operation cannot be vectorized
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(752,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(752,37) ]
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(681,16) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(681,7) ]
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(761,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(660,23)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(762,16) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: cpSMS4_CBC_dec_gfni128x12(Ipp8u *, const Ipp8u *, int, const Ipp32u *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(786,16)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(786,7) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(819,7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between TMP[8] (822:19) and TMP[8] (856:19)
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(933,19)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(933,10) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(944,19)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(944,10) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(978,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(979,16) ]
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(784,4)
+   remark #15533: loop was not vectorized: loop exceeds complexity limits. Consider overriding limits (-override-limits) or using simd directive.
+LOOP END
+===========================================================================
+
+Begin optimization report for: cpSMS4_CBC_dec_gfni128x8(Ipp8u *, const Ipp8u *, int, const Ipp32u *, Ipp8u *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(999,4)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1023,7)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between TMP[8] (1027:19) and TMP[8] (1066:19)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1111,19)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1111,10) ]
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1001,16)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1001,7) ]
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1140,4)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1141,16) ]
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1170,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1144,26)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1182,7) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1144,26)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between TMP[7] (1186:19) and TMP[7] (1211:19)
+   LOOP END
+
+   LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1172,16) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1144,26)
+      remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1172,7) ]
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1257,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1144,26)
+   remark #15310: loop was not vectorized: operation cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_pcpsms4_cbc_gfni.c(1258,16) ]
+LOOP END
+===========================================================================

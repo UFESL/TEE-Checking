@@ -1,0 +1,24 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: cpHashMessage_MB8_rmf(const Ipp8u *const *, const int *, Ipp8u *const *, const IppsHashMethod *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_internal_hashmessage_mb.c(22,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+LOOP END
+===========================================================================
+
+Begin optimization report for: cpMGF1_MB8_rmf(const Ipp8u *const *, const int *, Ipp8u *const *, const int *, const IppsHashMethod *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/y8/c_intel64/y8_internal_hashmessage_mb.c(31,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+LOOP END
+===========================================================================
