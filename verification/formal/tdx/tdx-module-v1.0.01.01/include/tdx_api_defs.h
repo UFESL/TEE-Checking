@@ -69,7 +69,8 @@ typedef enum
     TDH_MEM_SEPT_WR_LEAF          = 42,
     TDH_VP_WR_LEAF                = 43,
     TDH_SYS_LP_SHUTDOWN_LEAF      = 44,
-    TDH_SYS_CONFIG_LEAF           = 45
+    TDH_SYS_CONFIG_LEAF           = 45,
+    TEST_PRINT                    = 46
 
 #ifdef DEBUGFEATURE_TDX_DBG_TRACE
     ,TDDEBUGCONFIG_LEAF = 0xFE

@@ -595,4 +595,6 @@ api_error_type tdh_vp_wr(uint64_t tdvpr_pa,
                          uint64_t wr_mask);
 
 
+void test_print(void);
+
 #endif // __TDX_VMM_API_HANDLERS_H_INCLUDED__

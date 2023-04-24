@@ -23,6 +23,7 @@
 #include "debug/tdx_debug.h"
 #include "helpers/helpers.h"
 
+
 void tdx_vmm_dispatcher(void)
 {
     // Must be first thing to do before accessing local/global data or sysinfo table
@@ -421,6 +422,10 @@ void tdx_vmm_dispatcher(void)
                                              local_data->vmm_regs.r8,
                                              local_data->vmm_regs.r9);
         break;
+    }
+    case TEST_PRINT:
+    {
+        test_print();
     }
     default:
     {
