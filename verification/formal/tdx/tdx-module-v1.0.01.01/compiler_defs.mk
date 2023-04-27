@@ -12,21 +12,28 @@
 include proj_defs.mk
 
 # Compiler
-CC = clang
-CXX = clang++
-CCVERSION = $(shell $(CC) --version | grep ^clang | cut -f1 -d"." | sed 's/^.* //g' )
+# CC = clang
+CC = goto-cc
+CXX = goto-cc
+# CCVERSION = $(shell $(CC) --version | grep ^clang | cut -f1 -d"." | sed 's/^.* //g' )
+CCVERSION = $(shell $(CC) --version | grep ^gcc | cut -f1 -d"." | sed 's/^.* //g' )
+
 
 CC_WITHOUT_CODE_COVERAGE := $(CC)
 CXX_WITHOUT_CODE_COVERAGE := $(CXX)
 
 # Standard flags
+# STD_FLAGS = -MD -MP -m64 -Wall -Wextra -fPIC -fno-builtin-memset -fvisibility=hidden -mcmodel=small \
+# 			-mstack-alignment=16 -mstackrealign -std=c17 -mno-mmx -mno-sse -fno-jump-tables
+
 STD_FLAGS = -MD -MP -m64 -Wall -Wextra -fPIC -fno-builtin-memset -fvisibility=hidden -mcmodel=small \
-			-mstack-alignment=16 -mstackrealign -std=c17 -mno-mmx -mno-sse -fno-jump-tables
+			-mpreferred-stack-boundary=4 -mstackrealign -std=c17 -mno-mmx -mno-sse -fno-jump-tables
 
 OPT_FLAGS = -O2
 
 # SecV mandatory flags
-SECV_FLAGS = -Wdouble-promotion -Wshadow -Wconversion -Wmissing-prototypes -Wpointer-arith -Wuninitialized -Wunreachable-code -Wunused-function -Werror -D_FORTIFY_SOURCE=2 -fno-zero-initialized-in-bss -fstack-protector-strong
+# SECV_FLAGS = -Wdouble-promotion -Wshadow -Wconversion -Wmissing-prototypes -Wpointer-arith -Wuninitialized -Wunreachable-code -Wunused-function -Werror -D_FORTIFY_SOURCE=2 -fno-zero-initialized-in-bss -fstack-protector-strong
+SECV_FLAGS = -Wdouble-promotion -Wshadow -Wconversion -Wmissing-prototypes -Wpointer-arith -Wuninitialized -Wunreachable-code -Wunused-function -D_FORTIFY_SOURCE=2 -fno-zero-initialized-in-bss -fstack-protector-strong
 
 CET_FLAGS = -mshstk -fcf-protection
 
