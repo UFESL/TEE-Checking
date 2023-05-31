@@ -1,0 +1,28 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: l9_ippsSHA224Final(Ipp8u *, IppsSHA224State *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsha224final.c(63,14)
+<Multiversioned v1>
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsha224final.c(63,14)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/sources/ippcp/pcpsha256stuff.h(76,4) inlined into /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsha224final.c(74,4)
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/l9/c_intel64/l9_pcpsha224final.c(63,14)
+<Remainder loop for vectorization, Multiversioned v1>
+LOOP END
+===========================================================================

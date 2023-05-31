@@ -1,0 +1,18 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: k1_ifma256_amm52x20_dual(Ipp64u (*)[20], const Ipp64u (*)[20], const Ipp64u (*)[20], const Ipp64u (*)[20], const Ipp64u *)
+
+    Report from: Vector optimizations [vec]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_ifma_amm52x20_dual.c(67,5)
+   remark #15526: loop was not vectorized: ASM code cannot be vectorized   [ /home/hasini/Desktop/TEE/Intel/TDX/ipp-crypto-ippcp_2021.4/_build/c_sources/k1/c_intel64/k1_ifma_amm52x20_dual.c(81,0) ]
+LOOP END
+===========================================================================

@@ -1,0 +1,7 @@
+{ "expected-missing-functions":
+  [
+
+  ],
+  "proof-name": "is_private_hkid",
+  "proof-root": "verification/formal/tdx/Model-Checking-TDX/tdx-module-v1.0.01.01/cbmc/proofs"
+}
