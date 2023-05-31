@@ -14,20 +14,33 @@ const abort_data : data;
 
 //linear range register: lbase * lsize
 //Why doesn't Boogie have record types???
-type lr_register;
+type lr_register; // an array of registers
 const dummy_lsrr : lr_register;
+// constructor for lr_register
 function Lr_register(lbase: linear_address, lsize: int) : lr_register;
+// getter methods for lbase and lsize
 function Lr_register_lbase (lr : lr_register) : linear_address;
 function Lr_register_lsize (lr : lr_register) : int;
+// tells us what the above 2 functions do
+// for each getter method, when we call it on an instance of Lr_register, we return the value of lbase or lsize
 axiom (forall lbase: linear_address, lsize: int :: {Lr_register(lbase,lsize)}
        Lr_register_lbase(Lr_register(lbase, lsize)) == lbase);
 axiom (forall lbase: linear_address, lsize: int :: {Lr_register(lbase,lsize)}
        Lr_register_lsize(Lr_register(lbase, lsize)) == lsize);
+// constructor definition
 axiom (forall lr: lr_register :: {Lr_register_lbase(lr)} {Lr_register_lsize(lr)}
        Lr_register(Lr_register_lbase(lr), Lr_register_lsize(lr)) == lr);
+// checks if a linear address is between lbase and lbase + lsize
 function in_register_range (linear_address, lr_register) : bool;
 axiom (forall la : linear_address, lr : lr_register :: {in_register_range(la,lr)}
        in_register_range(la,lr) <==> Lr_register_lbase(lr) <= la && la < (Lr_register_lbase(lr) + Lr_register_lsize(lr)));
+// for interrupts and exceptions, we need to make sure the area is secure
+// TCS = thread control structure
+// SECS = security enclave
+// SSA = state save area
+// OSSA = offset of the SSA, location of first SSA
+// NSSA = number of SSAs within the enclave
+// checks if it's within the SSA
 function in_ssa_range(linear_address, tcs_ty, secs_ty): bool;
 axiom (forall la: linear_address, tcs: tcs_ty, secs: secs_ty :: {in_ssa_range(la, tcs, secs)}
        in_ssa_range(la,tcs, secs) <==> (la >= (Secs_baseaddr(secs) + Tcs_ossa(tcs))) && (la < (Secs_baseaddr(secs) + Tcs_ossa(tcs) + Tcs_nssa(tcs))));
