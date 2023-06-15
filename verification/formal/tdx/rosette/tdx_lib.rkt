@@ -1,4 +1,4 @@
-#lang racket
+#lang rosette
 
 ; To see range of HKIDs, look at section 8.1 of Demystifying for a physical memory address breakdown, not
 ; certain if it is an actual host physical address or a guest physical address (which is still a linear one)
@@ -29,6 +29,13 @@
 (define HKID_FLUSHED 3)
 (define HKID_RESERVED 4)
 
+; Secure EPT states (as spefcified on p58 table 7.1)
+(define SEPT_FREE 0)
+(define SEPT_PRESENT 1)
+(define SEPT_BLOCKED 2)
+(define SEPT_PENDING 3)
+(define SEPT_PENDING_BLOCKED 4)
+
 (provide (all-defined-out))
 
 ;********************* Functions *********************
@@ -38,6 +45,13 @@
 ; determining whether the HKID generated should be in the private or shared range
 (define (HKID_gen private)
     (if private
-        (random 0 (expt 2 MK_TME_KEYID_BITS))
+        (random (expt 2 (- MK_TME_KEYID_BITS TDX_RESERVED_KEYID_BITS)) (expt 2 MK_TME_KEYID_BITS))
         (random 0 (expt 2 (- MK_TME_KEYID_BITS TDX_RESERVED_KEYID_BITS)))
         ))
+
+;********************* Types? *********************
+
+(define-symbolic guest_physical_address integer?)
+(define-symbolic host_physical_address integer?)
+(define-symbolic HKID integer?)
+(define-symbolic ephermeral_key (bitvector EPHEMERAL_KEY_LENGTH))
