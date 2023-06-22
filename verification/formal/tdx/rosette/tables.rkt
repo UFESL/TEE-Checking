@@ -24,41 +24,85 @@
     KOT)
 
 ; TDR
-; TDR is root control struct of guest TD, contains minimal set of state params 
-; to enable guest control even duringtimes when TD's private HKID is not known,
-; or when TD key managemnet state does not permit access to 
-(define-struct TDR (key_state HKID key))
-(define dummy_TDR (make-TDR NA (make-bit-vector MK_TME_KEYID_BITS #f) 
-    (make-bit-vector EPHEMERAL_KEY_LENGTH #f)))
+; See table 23.3 on p.171
+(define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP))
 
-;********************* Tests/Examples *********************
+; PAMT (p67-68)
+; Note that the OWNER field is a bit field from the pa of the TDR, here it
+; could probably be some TD_ID instead
+; EPOCH is only intended for pages of type PT_REG or PT_EPT
+; PAMTs are more complex than this because there are multiple page sizes but
+; I don't think that'll impact confidentiality.
+(define PAMT (make-hash))
+(define-struct PAMT_entry (PAGE_TYPE OWNER BEPOCH))
+(define/contract PAMT-contract
+    (hash/c integer? PAMT_entry? #:flat? #t)
+    PAMT)
 
-; (random-seed 1)
 
-; HKID_gen example
-(displayln "Generate a private key:")
-(displayln (HKID_gen #t))
-(displayln "Generate a public key:")
-(displayln (HKID_gen #f))
+;********************* Interrupts/Exceptions *********************
+; Need to model how each modifies the KET, KOT, TDR, and SEPT
 
-; Example of adding a mapping to KET using HKID_gen to get a random private HKID
-(define temp (HKID_gen #t))
-(hash-set! KET temp (make-bit-vector EPHEMERAL_KEY_LENGTH #f))
+; Specifically, an interrupt or exception can cause a TD exit so I need to model
+; what happens to the KET KOT TDR and SEPT
+
+
+;********************* ABI *********************
+; TDH_MNG_CREATE - 240
+
+; Returns new TDR on success, on failure returns false
+; Assuming that CREATE updates the page state in the PAMT to PT_TDR as the specification states:
+;   "Initialize the TDR page metadata in PAMT."
+(define (TDH_MNG_CREATE pa HKID)
+    (define hkid_state (hash-ref KOT HKID #f))
+    (define page_state (hash-ref PAMT pa #f))
+    (if (and (is_hkid_private HKID) 
+        (or (equal? hkid_state #f) (equal? hkid_state HKID_FREE)) 
+        (or (equal? page_state #f) (equal? page_state PT_NDA)))
+        (begin
+            (hash-set! KOT HKID HKID_ASSIGNED)
+            (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
+            (make-TDR 0 0 0 0 0 TD_HKID_ASSIGNED HKID 0))
+        #f)
+    )
+
+; TDH_MNG_KEY_CONFIG - 244
+; On success returns the new TDR, on failure returns false
+(define (TDH_MNG_KEY_CONFIG pa tdr)
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state 
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define td_fatal (TDR-FATAL tdr))
+    (define hkid_state (TDR-LIFECYCLE_STATE tdr))
+    (if (and (equal? page_state PT_TDR) (equal? td_fatal 0))
+        (begin
+            ; mutate the KET entry for the TDR's HKID to have a symbolic ephemeral key
+            (hash-set! KET (TDR-HKID tdr) key_val)  ; TODO: key_val
+            ; make updated TDR structure to return
+            (struct-copy TDR tdr
+                            [LIFECYCLE_STATE TD_KEYS_CONFIGURED]))
+        #f)
+    )
+
+
+; Example TD creation and key resource assignment sequence
+(define temp_tdr (TDH_MNG_CREATE 0 5))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+(displayln PAMT)
+
+(define pamt_entry (hash-ref PAMT 0))
+(displayln (PAMT_entry-PAGE_TYPE pamt_entry))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+
+(set! temp_tdr (TDH_MNG_KEY_CONFIG 0 temp_tdr))
 (displayln KET)
-(displayln (bit-vector->string (hash-ref KET temp)))
+(displayln (PAMT_entry-PAGE_TYPE pamt_entry))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
 
-; Mapping HKID to HKID state KOT example
-(hash-set! KOT temp HKID_FREE)
-(displayln KOT)
-
-
-
-(define temp1 (make-hash))
-(define/contract temp-contract
-    (hash/c integer? boolean? #:flat? #t)
-    temp1)
-
-(hash-set! temp1 1 #f)
-(hash-set! temp1 guest_physical_address #f)
-
-(displayln temp1)
+; TDH_MNG_VPFLUSH
+; TDH_MNG_KEY_FREEID
+; TDH_PHYMEM_PAGE_RECLAIM
+; TDH_MNG_INIT
+; TDH_MNG_FINALIZE

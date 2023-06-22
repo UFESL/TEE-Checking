@@ -36,6 +36,16 @@
 (define SEPT_PENDING 3)
 (define SEPT_PENDING_BLOCKED 4)
 
+; PAMT Page types
+(define PT_NDA 0)
+(define PT_RSVD 1)
+(define PT_REG 2)
+(define PT_TDR 3)
+(define PT_TDCX 4)
+(define PT_TDVPR 5)
+(define PT_TDVPX 6)
+(define PT_EPT 7)
+
 (provide (all-defined-out))
 
 ;********************* Functions *********************
@@ -49,9 +59,14 @@
         (random 0 (expt 2 (- MK_TME_KEYID_BITS TDX_RESERVED_KEYID_BITS)))
         ))
 
+(define (is_hkid_private HKID)
+    (and (> HKID (expt 2 (- MK_TME_KEYID_BITS TDX_RESERVED_KEYID_BITS))) (< HKID (expt 2 MK_TME_KEYID_BITS))))
+
 ;********************* Types? *********************
 
 (define-symbolic guest_physical_address integer?)
 (define-symbolic host_physical_address integer?)
 (define-symbolic HKID integer?)
 (define-symbolic ephermeral_key (bitvector EPHEMERAL_KEY_LENGTH))
+
+(define-symbolic key_val (bitvector 32))
