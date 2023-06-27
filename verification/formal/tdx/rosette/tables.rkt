@@ -39,12 +39,41 @@
     (hash/c integer? PAMT_entry? #:flat? #t)
     PAMT)
 
+; Need some way to model what is in the cache at any given time so that we can model
+; flushing the cache during context switches or TD teardown. So I think a map of like
+; physical addresses to a cache line structure, where the data field doesn't matter but
+; we need to have the TD owner bit and HKID at the very least. Maybe the MAC too
+
+; So on p120 it specifies the components for Ci mode, as the data, a tweaked pa, the TD owner bit, and the MAC key
+(define cache (make-hash))
+(define-struct cache_entry (TD_OWNER HKID MAC DATA))
+(define/contract cache-contract
+    (hash/c integer? cache_entry? #:flat? #t)
+    cache)
+
 
 ;********************* Interrupts/Exceptions *********************
-; Need to model how each modifies the KET, KOT, TDR, and SEPT
 
-; Specifically, an interrupt or exception can cause a TD exit so I need to model
-; what happens to the KET KOT TDR and SEPT
+; Not certain when it is determined to flush the cache, need to look through the implementation
+; for it on transitions from TDX to VMM (exiting SEAM) and TD exiting to TDX
+; p.59
+
+(define (flush_cache target_HKID)
+    (define keys (hash-keys cache))
+    (for ([i keys])
+        (define cache_line (hash-ref cache i))
+        (when (equal? (cache_entry-HKID cache_line) target_HKID)
+            (hash-remove! cache i)
+            )
+        )
+    )
+
+; p.37 - table 3.11
+; p.88 - fig 12.2
+; It defines that the exit just means that the logical processor's state
+(define (async_td_exit)
+    'todo
+    )
 
 
 ;********************* ABI *********************
@@ -56,14 +85,14 @@
 (define (TDH_MNG_CREATE pa HKID)
     (define hkid_state (hash-ref KOT HKID #f))
     (define page_state (hash-ref PAMT pa #f))
-    (if (and (is_hkid_private HKID) 
+    (when (and (is_hkid_private HKID) 
         (or (equal? hkid_state #f) (equal? hkid_state HKID_FREE)) 
         (or (equal? page_state #f) (equal? page_state PT_NDA)))
         (begin
             (hash-set! KOT HKID HKID_ASSIGNED)
             (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
             (make-TDR 0 0 0 0 0 TD_HKID_ASSIGNED HKID 0))
-        #f)
+        )
     )
 
 ; TDH_MNG_KEY_CONFIG - 244
@@ -76,16 +105,21 @@
             #f))
     (define td_fatal (TDR-FATAL tdr))
     (define hkid_state (TDR-LIFECYCLE_STATE tdr))
-    (if (and (equal? page_state PT_TDR) (equal? td_fatal 0))
+    (when (and (equal? page_state PT_TDR) (equal? td_fatal 0))
         (begin
             ; mutate the KET entry for the TDR's HKID to have a symbolic ephemeral key
             (hash-set! KET (TDR-HKID tdr) key_val)  ; TODO: key_val
             ; make updated TDR structure to return
             (struct-copy TDR tdr
                             [LIFECYCLE_STATE TD_KEYS_CONFIGURED]))
-        #f)
+        )
     )
 
+; TDH_MNG_VPFLUSH
+; TDH_MNG_KEY_FREEID
+; TDH_PHYMEM_PAGE_RECLAIM
+; TDH_MNG_INIT
+; TDH_MNG_FINALIZE
 
 ; Example TD creation and key resource assignment sequence
 (define temp_tdr (TDH_MNG_CREATE 0 5))
@@ -101,8 +135,9 @@
 (displayln (PAMT_entry-PAGE_TYPE pamt_entry))
 (displayln (TDR-LIFECYCLE_STATE temp_tdr))
 
-; TDH_MNG_VPFLUSH
-; TDH_MNG_KEY_FREEID
-; TDH_PHYMEM_PAGE_RECLAIM
-; TDH_MNG_INIT
-; TDH_MNG_FINALIZE
+; Cache testing
+(hash-set! cache 1 (make-cache_entry 0 0 0 0))
+(hash-set! cache 2 (make-cache_entry 0 0 0 0))
+(hash-set! cache 3 (make-cache_entry 0 1 0 0))
+(flush_cache 0)
+(displayln cache)
