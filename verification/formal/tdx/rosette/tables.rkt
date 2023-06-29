@@ -1,6 +1,6 @@
 #lang rosette
-(require data/bit-vector)
-(require "tdx_lib.rkt")
+(require data/bit-vector)   ; bitvectors
+(require "tdx_lib.rkt")     ; various state defintions and helper functions
 
 ;********************* Tables *********************
 ; (S)EPT -> maps GPA to HPA and page state (shared bit, EPT entry state)
@@ -51,6 +51,8 @@
     (hash/c integer? cache_entry? #:flat? #t)
     cache)
 
+(define TDVPS (make-TDR 0 0 0 0 0 0 0 0))
+
 
 ;********************* Interrupts/Exceptions *********************
 
@@ -71,10 +73,21 @@
 ; p.37 - table 3.11
 ; p.88 - fig 12.2
 ; It defines that the exit just means that the logical processor's state
-(define (async_td_exit)
-    'todo
+; as per p23: cpu state is saved to CVPUCS, synthetic state is loaded, p.37
+
+; TODO: For now using exit_reason to denote interrupt or exception but this will change later
+(define (async_td_exit curr_tdr exit_reason)
+    (set! TDVPS curr_tdr)   ; save current lp state in TDVPS
+    ; probably some context switching abstraction
     )
 
+(define (interrupt curr_tdr)
+    (async_td_exit curr_tdr 'interrupt)
+    )
+
+(define (exception curr_tdr)
+    (async_td_exit curr_tdr 'exception)
+    )
 
 ;********************* ABI *********************
 ; TDH_MNG_CREATE - 240
@@ -115,11 +128,61 @@
         )
     )
 
-; TDH_MNG_VPFLUSH
-; TDH_MNG_KEY_FREEID
-; TDH_PHYMEM_PAGE_RECLAIM
-; TDH_MNG_INIT
-; TDH_MNG_FINALIZE
+; TDH_MNG_VPFLUSHDONE - 253
+(define (TDH_MNG_VPFLUSHDONE)
+    'TODO
+    )
+
+
+
+; TDH_MNG_KEY_FREEID - 246
+(define (TDH_MNG_KEY_FREEID pa tdr)
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state 
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define hkid_state (TDR-LIFECYCLE_STATE tdr))
+    (define hkid (TDR-HKID tdr))
+    (define kot_entry (hash-ref KOT hkid #f))
+
+    (when (and (equal? page_state PT_TDR) (equal? hkid_state TD_BLOCKED) (equal? kot_entry HKID_FLUSHED))
+        (begin
+            (hash-set! KOT hkid HKID_FREE)
+            (struct-copy TDR tdr
+                            [LIFECYCLE_STATE TD_TEARDOWN]))
+        )
+    )
+
+; TDH_PHYMEM_PAGE_RECLAIM - 263
+(define (TDH_PHYMEM_PAGE_RECLAIM)
+    'todo
+    )
+
+; TDH_MNG_INIT - 242
+; Generally configures TD control structures not necessary for demonstrating confidentiality
+(define (TDH_MNG_INIT pa tdr)
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state 
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define fatal (TDR-FATAL tdr))
+    (define init (TDR-INIT tdr))
+    (define lifecycle_state (TDR-LIFECYCLE_STATE tdr))
+    
+    (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED))
+        (begin
+            (struct-copy TDR tdr
+                            [INIT #t]))
+        )
+    )
+
+; TDH_MNG_FINALIZE - 257
+(define (TDH_MNG_FINALIZE pa tdr)
+    'todo
+    )
+
 
 ; Example TD creation and key resource assignment sequence
 (define temp_tdr (TDH_MNG_CREATE 0 5))
@@ -141,3 +204,7 @@
 (hash-set! cache 3 (make-cache_entry 0 1 0 0))
 (flush_cache 0)
 (displayln cache)
+
+; TDVPS sandbox
+(set! TDVPS (make-TDR 0 1 1 0 0 0 0 0))
+(displayln TDVPS)
