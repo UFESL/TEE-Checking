@@ -25,7 +25,7 @@
 
 ; TDR
 ; See table 23.3 on p.171
-(define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP))
+(define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP FINALIZED))
 
 ; PAMT (p67-68)
 ; Note that the OWNER field is a bit field from the pa of the TDR, here it
@@ -51,7 +51,7 @@
     (hash/c integer? cache_entry? #:flat? #t)
     cache)
 
-(define TDVPS (make-TDR 0 0 0 0 0 0 0 0))
+(define TDVPS (make-TDR #f #f 0 0 0 0 0 0 #f))
 
 
 ;********************* Interrupts/Exceptions *********************
@@ -104,7 +104,7 @@
         (begin
             (hash-set! KOT HKID HKID_ASSIGNED)
             (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
-            (make-TDR 0 0 0 0 0 TD_HKID_ASSIGNED HKID 0))
+            (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f))
         )
     )
 
@@ -118,7 +118,7 @@
             #f))
     (define td_fatal (TDR-FATAL tdr))
     (define hkid_state (TDR-LIFECYCLE_STATE tdr))
-    (when (and (equal? page_state PT_TDR) (equal? td_fatal 0))
+    (when (and (equal? page_state PT_TDR) (not td_fatal))
         (begin
             ; mutate the KET entry for the TDR's HKID to have a symbolic ephemeral key
             (hash-set! KET (TDR-HKID tdr) key_val)  ; TODO: key_val
@@ -128,9 +128,26 @@
         )
     )
 
-; TDH_MNG_VPFLUSHDONE - 253
-(define (TDH_MNG_VPFLUSHDONE)
-    'TODO
+; TDH_MNG_VPFLUSHDONE - 251
+; based on flushdone but as we are abstracting the packages this also flushes the cache
+; Returns updated tdr on success, false on failure
+(define (TDH_MNG_VPFLUSH pa tdr)
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state 
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define td_state (TDR-LIFECYCLE_STATE tdr))
+    (define hkid_state (hash-ref KOT (TDR-HKID tdr)))
+    (if (and (equal? page_state PT_TDR) 
+             (or (equal? td_state TD_HKID_ASSIGNED) (equal? TD_KEYS_CONFIGURED))
+             (equal? hkid_state HKID_ASSIGNED))
+            (begin
+                (flush_cache (TDR-HKID tdr))
+                (hash-set! KOT (TDR-HKID tdr) HKID_FLUSHED)
+                (struct-copy TDR tdr
+                    [LIFECYCLE_STATE TD_BLOCKED]))
+            #f)
     )
 
 
@@ -155,9 +172,37 @@
     )
 
 ; TDH_PHYMEM_PAGE_RECLAIM - 263
-(define (TDH_PHYMEM_PAGE_RECLAIM)
-    'todo
-    )
+; So tdr is either the tdr at pa or the tdr who owns the page at pa
+; Either returns the updated tdr if necessary or returns false for no output
+(define (TDH_PHYMEM_PAGE_RECLAIM pa tdr)
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    
+    (if (nor (equal? page_state PT_NDA) (equal? PT_RSVD))
+        (begin
+            ; Set new page state and update TDR
+            
+            (if (equal? page_state PT_TDR)
+                (begin
+                    (define td_state (TDR-LIFECYCLE_STATE tdr))
+                    (define chldcnt (TDR-CHLDCNT tdr))
+                    (when (and (equal? td_state TD_TEARDOWN) (equal? chldcnt 0))
+                        (hash-set! PAMT pa (struct-copy PAMT_entry page_entry
+                                                        [PAGE_TYPE PT_NDA])))
+                    #f)
+                (begin
+                    (define td_state (TDR-LIFECYCLE_STATE tdr))
+                    (when (equal? td_state TD_TEARDOWN)
+                        (begin
+                            (hash-set! PAMT pa (struct-copy PAMT_entry page_entry
+                                                        [PAGE_TYPE PT_NDA]))
+                            (define new_childcount (- (TDR-CHLDCNT tdr) 1))
+                            (struct-copy TDR tdr
+                                [CHLDCNT new_childcount]))))))
+        #f))
 
 ; TDH_MNG_INIT - 242
 ; Generally configures TD control structures not necessary for demonstrating confidentiality
@@ -180,8 +225,24 @@
 
 ; TDH_MNG_FINALIZE - 257
 (define (TDH_MNG_FINALIZE pa tdr)
-    'todo
-    )
+    (define page_entry (hash-ref PAMT pa #f))
+    (define page_state
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define fatal (TDR-FATAL tdr))
+    (define tdr_state (TDR-LIFECYCLE_STATE tdr))
+    (define init (TDR-INIT tdr))
+    (define finalized (TDR-FINALIZED tdr))
+
+    (if (and (equal? page_state PT_TDR) 
+             (not fatal) 
+             (equal? tdr_state TD_KEYS_CONFIGURED)
+             (init)
+             (not finalized))
+            (struct-copy TDR tdr
+                            [FINALIZED #t])
+            #f))
 
 
 ; Example TD creation and key resource assignment sequence
@@ -204,7 +265,3 @@
 (hash-set! cache 3 (make-cache_entry 0 1 0 0))
 (flush_cache 0)
 (displayln cache)
-
-; TDVPS sandbox
-(set! TDVPS (make-TDR 0 1 1 0 0 0 0 0))
-(displayln TDVPS)
