@@ -140,7 +140,7 @@
     (define td_state (TDR-LIFECYCLE_STATE tdr))
     (define hkid_state (hash-ref KOT (TDR-HKID tdr)))
     (if (and (equal? page_state PT_TDR) 
-             (or (equal? td_state TD_HKID_ASSIGNED) (equal? TD_KEYS_CONFIGURED))
+             (or (equal? td_state TD_HKID_ASSIGNED) (equal? td_state TD_KEYS_CONFIGURED))
              (equal? hkid_state HKID_ASSIGNED))
             (begin
                 (flush_cache (TDR-HKID tdr))
@@ -153,6 +153,8 @@
 
 
 ; TDH_MNG_KEY_FREEID - 246
+; The specification does not state that the HKID field in the TDR is changed when this
+; happens
 (define (TDH_MNG_KEY_FREEID pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state 
@@ -181,7 +183,7 @@
             (PAMT_entry-PAGE_TYPE page_entry)
             #f))
     
-    (if (nor (equal? page_state PT_NDA) (equal? PT_RSVD))
+    (if (nor (equal? page_state PT_NDA) (equal? page_state PT_RSVD))
         (begin
             ; Set new page state and update TDR
             
@@ -238,11 +240,12 @@
     (if (and (equal? page_state PT_TDR) 
              (not fatal) 
              (equal? tdr_state TD_KEYS_CONFIGURED)
-             (init)
+             (equal? init #t)
              (not finalized))
             (struct-copy TDR tdr
-                            [FINALIZED #t])
+                           [FINALIZED #t])
             #f))
+            
 
 
 ; Example TD creation and key resource assignment sequence
@@ -258,6 +261,39 @@
 (displayln KET)
 (displayln (PAMT_entry-PAGE_TYPE pamt_entry))
 (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+
+; Example init and finalize sequence
+(displayln "Initializing TDR:")
+(displayln (TDR-INIT temp_tdr))
+(set! temp_tdr (TDH_MNG_INIT 0 temp_tdr))
+(displayln (TDR-INIT temp_tdr))
+
+(displayln "Finalizing TDR:")
+(displayln (TDR-FINALIZED temp_tdr))
+(set! temp_tdr (TDH_MNG_FINALIZE 0 temp_tdr))
+(displayln (TDR-FINALIZED temp_tdr))
+
+; Example blocking a TDR
+(displayln "Blocking TDR:")
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+(set! temp_tdr (TDH_MNG_VPFLUSH 0 temp_tdr))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+
+; Example teardown of a TDR
+(displayln "Tearing down TDR:")
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+(set! temp_tdr (TDH_MNG_KEY_FREEID 0 temp_tdr))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+
+(displayln "Freeing the TDR's page")
+(displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
+(TDH_PHYMEM_PAGE_RECLAIM 0 temp_tdr)
+(displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
+
 
 ; Cache testing
 (hash-set! cache 1 (make-cache_entry 0 0 0 0))
