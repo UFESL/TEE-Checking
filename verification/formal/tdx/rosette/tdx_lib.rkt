@@ -15,14 +15,14 @@
 ; Ephemeral keys can be 128 or 256 bits long (for debugging pursposes they are short rn)
 (define EPHEMERAL_KEY_LENGTH 4)
 
-; TD Key Management State definition (see p43, table 4.3)
+; TD Key Management State definition (see p57, table 7.3)
 (define NA 0)
 (define TD_HKID_ASSIGNED 1)
 (define TD_KEYS_CONFIGURED 2)
 (define TD_BLOCKED 3)
 (define TD_TEARDOWN 4)
 
-; HKID state (for KOT) (see p43, table 4.3)
+; HKID state (for KOT) (see p57, table 7.3)
 (define HKID_FREE 0)
 (define HKID_ASSIGNED 1)
 (define HKID_RECLAIMED 2)

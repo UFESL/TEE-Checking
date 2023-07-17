@@ -25,7 +25,7 @@
 
 ; TDR
 ; See table 23.3 on p.171
-(define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP FINALIZED))
+(define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP FINALIZED RUNNING))
 
 ; PAMT (p67-68)
 ; Note that the OWNER field is a bit field from the pa of the TDR, here it
@@ -51,7 +51,7 @@
     (hash/c integer? cache_entry? #:flat? #t)
     cache)
 
-(define TDVPS (make-TDR #f #f 0 0 0 0 0 0 #f))
+(define TDVPS (make-TDR #f #f 0 0 0 0 0 0 #f #f))
 
 
 ;********************* Interrupts/Exceptions *********************
@@ -77,9 +77,16 @@
 
 ; TODO: For now using exit_reason to denote interrupt or exception but this will change later
 (define (async_td_exit curr_tdr exit_reason)
-    (set! TDVPS curr_tdr)   ; save current lp state in TDVPS
-    ; probably some context switching abstraction
-    )
+    ; General steps are laid out in td_vmexit_to_vmm(...) in td_transitions/td_exit.:
+    ; 1. save current td state (so just tdr)
+    ; 2. scrub vcpu state of td state
+    ; 3. TD exit tlb tracking sequence -- effectivley just flush cache of td's data
+    ; 4. rest of steps are out of the scope (modify other components not for confidentiality)
+
+    ; So this needs to flush the cache of the td, and then mark it as not running
+    (flush_cache (TDR-HKID curr_tdr))
+    (struct-copy TDR curr_tdr
+                    [RUNNING #f]))
 
 (define (interrupt curr_tdr)
     (async_td_exit curr_tdr 'interrupt)
@@ -104,7 +111,7 @@
         (begin
             (hash-set! KOT HKID HKID_ASSIGNED)
             (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
-            (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f))
+            (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f #f))
         )
     )
 
@@ -246,7 +253,17 @@
                            [FINALIZED #t])
             #f))
             
-
+; TDH_VP_ENTER - 288
+; For async exits to make any sense, the model needs to have a "running"
+; state. So that when an interrupt occurs, a TD can be marked as halted, because,
+; outside of a cache flush, the other management tables modeled aren't really involved
+; I can't find an instance where an interrupt or exception leads to a modificaiton of KOT
+(define (TDH_VP_ENTER tdr)
+    (define running (TDR-RUNNING tdr))
+    (if (not running)
+        (struct-copy TDR tdr
+                        [RUNNING #t])
+        #f))
 
 ; Example TD creation and key resource assignment sequence
 (define temp_tdr (TDH_MNG_CREATE 0 5))
