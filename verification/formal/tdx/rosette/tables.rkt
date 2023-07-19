@@ -3,6 +3,9 @@
 (require "tdx_lib.rkt")     ; various state defintions and helper functions
 
 ;********************* Tables *********************
+
+; See p56 for description of key management tables for confidentiality
+
 ; (S)EPT -> maps GPA to HPA and page state (shared bit, EPT entry state)
 (define secure_EPT (make-hash))
 (define-struct secure_EPT_entry (host_physical_address GPA_SHARED state))
@@ -65,10 +68,7 @@
     (for ([i keys])
         (define cache_line (hash-ref cache i))
         (when (equal? (cache_entry-HKID cache_line) target_HKID)
-            (hash-remove! cache i)
-            )
-        )
-    )
+            (hash-remove! cache i))))
 
 ; p.37 - table 3.11
 ; p.88 - fig 12.2
@@ -89,19 +89,21 @@
                     [RUNNING #f]))
 
 (define (interrupt curr_tdr)
-    (async_td_exit curr_tdr 'interrupt)
-    )
+    (async_td_exit curr_tdr 'interrupt))
 
 (define (exception curr_tdr)
-    (async_td_exit curr_tdr 'exception)
-    )
+    (async_td_exit curr_tdr 'exception))
 
 ;********************* ABI *********************
-; TDH_MNG_CREATE - 240
 
-; Returns new TDR on success, on failure returns false
-; Assuming that CREATE updates the page state in the PAMT to PT_TDR as the specification states:
-;   "Initialize the TDR page metadata in PAMT."
+; TDH_MNG_CREATE -- 240
+; Inputs:   Physical address to reference the TDR with, HKID to assign to the TDR
+; Outputs:  On success: modifies PAMT to reflect page being reserved for TDR, returns the new
+;           TDR structure
+;           On faulure: returns nothing
+; Calls to this function should check the return type of the return value, if it isn't a TDR
+; then some error has occured
+
 (define (TDH_MNG_CREATE pa HKID)
     (define hkid_state (hash-ref KOT HKID #f))
     (define page_state (hash-ref PAMT pa #f))
@@ -111,12 +113,15 @@
         (begin
             (hash-set! KOT HKID HKID_ASSIGNED)
             (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
-            (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f #f))
-        )
-    )
+            (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f #f))))
 
-; TDH_MNG_KEY_CONFIG - 244
-; On success returns the new TDR, on failure returns false
+; TDH_MNG_KEY_CONFIG -- 244
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: updates KET with new mapping between TDR's HKID and key_val, returns the
+;                       new TDR struct with updated lifecycle state
+;           On failure: returns nothing meaningful (should be checking whether the return value is
+;                       the correct type (TDR), if not then the function has failed)
+
 (define (TDH_MNG_KEY_CONFIG pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state 
@@ -128,16 +133,19 @@
     (when (and (equal? page_state PT_TDR) (not td_fatal))
         (begin
             ; mutate the KET entry for the TDR's HKID to have a symbolic ephemeral key
-            (hash-set! KET (TDR-HKID tdr) key_val)  ; TODO: key_val
+            (hash-set! KET (TDR-HKID tdr) key_val)  ; key_val should remain symbolic
             ; make updated TDR structure to return
             (struct-copy TDR tdr
-                            [LIFECYCLE_STATE TD_KEYS_CONFIGURED]))
-        )
-    )
+                            [LIFECYCLE_STATE TD_KEYS_CONFIGURED]))))
 
-; TDH_MNG_VPFLUSHDONE - 251
-; based on flushdone but as we are abstracting the packages this also flushes the cache
-; Returns updated tdr on success, false on failure
+; TDH_MNG_VPFLUSHDONE -- 251
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: Flushes cache of any entries associated with the TDR's HKID,
+;                       updates the HKID's state in KOT, returns TDR with blocked 
+;                       lifecycle state
+;           On failure: Does nothing, returns nothing
+; Notes:    based on flushdone but as we are abstracting the packages this also flushes the cache
+
 (define (TDH_MNG_VPFLUSH pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state 
@@ -154,14 +162,15 @@
                 (hash-set! KOT (TDR-HKID tdr) HKID_FLUSHED)
                 (struct-copy TDR tdr
                     [LIFECYCLE_STATE TD_BLOCKED]))
-            #f)
-    )
+            #f))
 
 
 
-; TDH_MNG_KEY_FREEID - 246
-; The specification does not state that the HKID field in the TDR is changed when this
-; happens
+; TDH_MNG_KEY_FREEID -- 246
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: Updates KOT state to reflect that the HKID is now free, returns updated
+;                       TDR with new lifecycle state and zeros out the HKID field
+
 (define (TDH_MNG_KEY_FREEID pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state 
@@ -176,13 +185,17 @@
         (begin
             (hash-set! KOT hkid HKID_FREE)
             (struct-copy TDR tdr
-                            [LIFECYCLE_STATE TD_TEARDOWN]))
-        )
-    )
+                            [LIFECYCLE_STATE TD_TEARDOWN]
+                            [HKID 0]))))
 
-; TDH_PHYMEM_PAGE_RECLAIM - 263
-; So tdr is either the tdr at pa or the tdr who owns the page at pa
-; Either returns the updated tdr if necessary or returns false for no output
+; TDH_PHYMEM_PAGE_RECLAIM -- 263
+; Inputs:   Physical address of start of page, TDR struct
+; Outputs:  On success: Modifies corresponding PAMT entry and the new TDR if necessary
+;           On failure: Returns false (again, these return value types should be checked before
+;                       redefining a variable)
+; Notes:    So tdr is either the tdr at pa or the tdr who owns the page at pa
+;           Either returns the updated tdr if necessary or returns false for no output
+
 (define (TDH_PHYMEM_PAGE_RECLAIM pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state
@@ -193,15 +206,14 @@
     (if (nor (equal? page_state PT_NDA) (equal? page_state PT_RSVD))
         (begin
             ; Set new page state and update TDR
-            
             (if (equal? page_state PT_TDR)
                 (begin
                     (define td_state (TDR-LIFECYCLE_STATE tdr))
                     (define chldcnt (TDR-CHLDCNT tdr))
-                    (when (and (equal? td_state TD_TEARDOWN) (equal? chldcnt 0))
+                    (if (and (equal? td_state TD_TEARDOWN) (equal? chldcnt 0))
                         (hash-set! PAMT pa (struct-copy PAMT_entry page_entry
-                                                        [PAGE_TYPE PT_NDA])))
-                    #f)
+                                                        [PAGE_TYPE PT_NDA]))
+                        #f))
                 (begin
                     (define td_state (TDR-LIFECYCLE_STATE tdr))
                     (when (equal? td_state TD_TEARDOWN)
@@ -213,8 +225,11 @@
                                 [CHLDCNT new_childcount]))))))
         #f))
 
-; TDH_MNG_INIT - 242
-; Generally configures TD control structures not necessary for demonstrating confidentiality
+; TDH_MNG_INIT -- 242
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: Returns updated TDR struct (new INIT state)
+; Notes: Generally configures TD control structures not necessary for demonstrating confidentiality
+
 (define (TDH_MNG_INIT pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state 
@@ -228,11 +243,13 @@
     (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED))
         (begin
             (struct-copy TDR tdr
-                            [INIT #t]))
-        )
-    )
+                            [INIT #t]))))
 
-; TDH_MNG_FINALIZE - 257
+; TDH_MNG_FINALIZE -- 257
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: TDR with updated FINALIZED bitfield
+;           On failure: False
+
 (define (TDH_MNG_FINALIZE pa tdr)
     (define page_entry (hash-ref PAMT pa #f))
     (define page_state
@@ -253,17 +270,23 @@
                            [FINALIZED #t])
             #f))
             
-; TDH_VP_ENTER - 288
-; For async exits to make any sense, the model needs to have a "running"
-; state. So that when an interrupt occurs, a TD can be marked as halted, because,
-; outside of a cache flush, the other management tables modeled aren't really involved
-; I can't find an instance where an interrupt or exception leads to a modificaiton of KOT
+; TDH_VP_ENTER -- 288
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: Updated TDR in "running state"
+;           On failure:
+; Notes:    For async exits to make any sense, the model needs to have a "running"
+;           state. So that when an interrupt occurs, a TD can be marked as halted, because,
+;           outside of a cache flush, the other management tables modeled aren't really involved
+;           I can't find an instance where an interrupt or exception leads to a modificaiton of KOT
+
 (define (TDH_VP_ENTER tdr)
     (define running (TDR-RUNNING tdr))
     (if (not running)
         (struct-copy TDR tdr
                         [RUNNING #t])
         #f))
+
+;********************* Examples *********************
 
 ; Example TD creation and key resource assignment sequence
 (define temp_tdr (TDH_MNG_CREATE 0 5))
@@ -300,17 +323,19 @@
 
 ; Example teardown of a TDR
 (displayln "Tearing down TDR:")
+
+(define target_HKID (TDR-HKID temp_tdr))
+
 (displayln (TDR-LIFECYCLE_STATE temp_tdr))
 (displayln (hash-ref KOT (TDR-HKID temp_tdr)))
 (set! temp_tdr (TDH_MNG_KEY_FREEID 0 temp_tdr))
 (displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+(displayln (hash-ref KOT target_HKID))
 
 (displayln "Freeing the TDR's page")
 (displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
 (TDH_PHYMEM_PAGE_RECLAIM 0 temp_tdr)
 (displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
-
 
 ; Cache testing
 (hash-set! cache 1 (make-cache_entry 0 0 0 0))
