@@ -6,6 +6,8 @@
 
 ; See p56 for description of key management tables for confidentiality
 
+; GPA : guest physical address, HPA : host physical address
+
 ; (S)EPT -> maps GPA to HPA and page state (shared bit, EPT entry state)
 (define secure_EPT (make-hash))
 (define-struct secure_EPT_entry (host_physical_address GPA_SHARED state))
@@ -26,7 +28,7 @@
     (hash/c integer? integer? #:flat? #t)
     KOT)
 
-; TDR
+; TDR : Trust Domain Root
 ; See table 23.3 on p.171
 (define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP FINALIZED RUNNING))
 
