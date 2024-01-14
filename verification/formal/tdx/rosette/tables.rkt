@@ -32,6 +32,11 @@
 ; See table 23.3 on p.171
 (define-struct TDR (INIT FATAL NUM_TDCX TDCX_PA CHLDCNT LIFECYCLE_STATE HKID PKG_CONFIG_BITMAP FINALIZED RUNNING))
 
+
+; TDCS : Trust Domain Control Structure
+; See table 23.5 on p.172 (All the fields are not implemented here for simplicity)
+(define-struct TDCS (FINALIZED NUM_VCPUS NUM_ASSOC_VCPUS ATTRIBUTES EPTP TSC_OFFSET TSC_MULTIPLIER))
+
 ; PAMT (p67-68)
 ; Note that the OWNER field is a bit field from the pa of the TDR, here it
 ; could probably be some TD_ID instead
