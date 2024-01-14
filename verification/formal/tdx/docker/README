@@ -1,0 +1,5 @@
+#How to run 
+ 
+ docker run  --volume=/Users/hansikaw/Documents/Rossate:/rosset -it -d rosset:1.0.0
+
+ racket tables.rkt
