@@ -37,6 +37,14 @@
 ; See table 23.5 on p.172 (All the fields are not implemented here for simplicity)
 (define-struct TDCS (FINALIZED NUM_VCPUS NUM_ASSOC_VCPUS ATTRIBUTES EPTP TSC_OFFSET TSC_MULTIPLIER))
 
+
+; TDVPS : Trust Domain Virtual Process State
+; See table 23.9 on p.176 (All the fields are not implemented here for simplicity)
+(define-struct TDCS (VCPU_STATE LAUNCHED VCPU_INDEX NUM_TDVPX TDVPS_PAGE_PA ASSOC_LPID ASSOC_HKID VCPU_EPOCH CPUID_SUPERVISOR_VE))
+
+
+
+
 ; PAMT (p67-68)
 ; Note that the OWNER field is a bit field from the pa of the TDR, here it
 ; could probably be some TD_ID instead
