@@ -67,7 +67,7 @@
     (hash/c integer? cache_entry? #:flat? #t)
     cache)
 
-(define TDVPS (make-TDR #f #f 0 0 0 0 0 0 #f #f))
+; (define TDVPS (make-TDR #f #f 0 0 0 0 0 0 #f #f))    why?
 
 
 ;********************* Interrupts/Exceptions *********************
@@ -303,9 +303,15 @@
 ;********************* Examples *********************
 
 ; Example TD creation and key resource assignment sequence
+
+
+(displayln "TD creation with hpa 0 and HKID 5")
+
 (define temp_tdr (TDH_MNG_CREATE 0 5))
 (displayln (TDR-LIFECYCLE_STATE temp_tdr))
 (displayln PAMT)
+
+(displayln "TD creation Done")
 
 (define pamt_entry (hash-ref PAMT 0))
 (displayln (PAMT_entry-PAGE_TYPE pamt_entry))
