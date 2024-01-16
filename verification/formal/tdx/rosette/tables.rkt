@@ -43,8 +43,6 @@
 (define-struct TDVPS (VCPU_STATE LAUNCHED VCPU_INDEX NUM_TDVPX TDVPS_PAGE_PA ASSOC_LPID ASSOC_HKID VCPU_EPOCH CPUID_SUPERVISOR_VE))
 
 
-
-
 ; PAMT (p67-68)
 ; Note that the OWNER field is a bit field from the pa of the TDR, here it
 ; could probably be some TD_ID instead
@@ -112,22 +110,22 @@
 ;********************* ABI *********************
 
 ; TDH_MNG_CREATE -- 240
-; Inputs:   Physical address to reference the TDR with, HKID to assign to the TDR
+; Inputs:   Hardware Physical address (hpa) to reference the TDR with, HKID to assign to the TDR
 ; Outputs:  On success: modifies PAMT to reflect page being reserved for TDR, returns the new
 ;           TDR structure
 ;           On faulure: returns nothing
 ; Calls to this function should check the return type of the return value, if it isn't a TDR
 ; then some error has occured
 
-(define (TDH_MNG_CREATE pa HKID)
+(define (TDH_MNG_CREATE hpa HKID)
     (define hkid_state (hash-ref KOT HKID #f))
-    (define page_state (hash-ref PAMT pa #f))
+    (define page_state (hash-ref PAMT hpa #f))
     (when (and (is_hkid_private HKID) 
         (or (equal? hkid_state #f) (equal? hkid_state HKID_FREE)) 
         (or (equal? page_state #f) (equal? page_state PT_NDA)))
         (begin
             (hash-set! KOT HKID HKID_ASSIGNED)
-            (hash-set! PAMT pa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
+            (hash-set! PAMT hpa (make-PAMT_entry PT_TDR 0 0)) ; TODO: owner identifier
             (make-TDR #f #f 0 0 0 TD_HKID_ASSIGNED HKID 0 #f #f))))
 
 ; TDH_MNG_KEY_CONFIG -- 244
