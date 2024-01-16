@@ -116,6 +116,7 @@
 ;           On faulure: returns nothing
 ; Calls to this function should check the return type of the return value, if it isn't a TDR
 ; then some error has occured
+; TODO ?? : Zero out the TDR page contents using direct write (MOVDIR64B).
 
 (define (TDH_MNG_CREATE hpa HKID)
     (define hkid_state (hash-ref KOT HKID #f))
