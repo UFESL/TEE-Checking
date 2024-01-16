@@ -144,7 +144,7 @@
             #f))
     (define td_fatal (TDR-FATAL tdr))
     (define hkid_state (TDR-LIFECYCLE_STATE tdr))
-    (when (and (equal? page_state PT_TDR) (not td_fatal))
+    (when (and (equal? page_state PT_TDR) (not td_fatal) (equal? hkid_state TD_HKID_ASSIGNED))
         (begin
             ; mutate the KET entry for the TDR's HKID to have a symbolic ephemeral key
             (hash-set! KET (TDR-HKID tdr) key_val)  ; key_val should remain symbolic
