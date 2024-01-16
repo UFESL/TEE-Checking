@@ -152,6 +152,29 @@
             (struct-copy TDR tdr
                             [LIFECYCLE_STATE TD_KEYS_CONFIGURED]))))
 
+
+; TDH_MNG_INIT -- 242
+; Inputs:   Physical address of TDR, TDR struct
+; Outputs:  On success: Returns updated TDR struct (new INIT state)
+; Notes: Generally configures TD control structures not necessary for demonstrating confidentiality
+
+(define (TDH_MNG_INIT hpa tdr)
+    (define page_entry (hash-ref PAMT hpa #f))
+    (define page_state 
+        (if (PAMT_entry? page_entry)
+            (PAMT_entry-PAGE_TYPE page_entry)
+            #f))
+    (define fatal (TDR-FATAL tdr))
+    (define init (TDR-INIT tdr))
+    (define lifecycle_state (TDR-LIFECYCLE_STATE tdr))
+    
+    (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED))
+        (begin
+            (struct-copy TDR tdr
+                            [INIT #t]))))
+
+
+
 ; TDH_MNG_VPFLUSHDONE -- 251
 ; Inputs:   Physical address of TDR, TDR struct
 ; Outputs:  On success: Flushes cache of any entries associated with the TDR's HKID,
@@ -239,25 +262,6 @@
                                 [CHLDCNT new_childcount]))))))
         #f))
 
-; TDH_MNG_INIT -- 242
-; Inputs:   Physical address of TDR, TDR struct
-; Outputs:  On success: Returns updated TDR struct (new INIT state)
-; Notes: Generally configures TD control structures not necessary for demonstrating confidentiality
-
-(define (TDH_MNG_INIT pa tdr)
-    (define page_entry (hash-ref PAMT pa #f))
-    (define page_state 
-        (if (PAMT_entry? page_entry)
-            (PAMT_entry-PAGE_TYPE page_entry)
-            #f))
-    (define fatal (TDR-FATAL tdr))
-    (define init (TDR-INIT tdr))
-    (define lifecycle_state (TDR-LIFECYCLE_STATE tdr))
-    
-    (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED))
-        (begin
-            (struct-copy TDR tdr
-                            [INIT #t]))))
 
 ; TDH_MNG_FINALIZE -- 257
 ; Inputs:   Physical address of TDR, TDR struct
