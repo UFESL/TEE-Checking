@@ -136,8 +136,8 @@
 ;           On failure: returns nothing meaningful (should be checking whether the return value is
 ;                       the correct type (TDR), if not then the function has failed)
 
-(define (TDH_MNG_KEY_CONFIG pa tdr)
-    (define page_entry (hash-ref PAMT pa #f))
+(define (TDH_MNG_KEY_CONFIG hpa tdr)
+    (define page_entry (hash-ref PAMT hpa #f))
     (define page_state 
         (if (PAMT_entry? page_entry)
             (PAMT_entry-PAGE_TYPE page_entry)
