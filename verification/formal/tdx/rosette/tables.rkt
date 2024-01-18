@@ -1,3 +1,4 @@
+; TDX tables and configurations
 #lang rosette
 (require data/bit-vector)   ; bitvectors
 (require "tdx_lib.rkt")     ; various state defintions and helper functions
