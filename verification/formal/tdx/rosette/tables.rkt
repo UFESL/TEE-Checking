@@ -160,26 +160,26 @@
 ; Outputs:  On success: modifies PAMT to reflect page being reserved for TDCX, returns the new
 ;           TDCX structure and modified TDR structure
 ;           On faulure: returns nothing
-(define (TDH_MNG_ADDCX hpa_tdr hpa_tdcx tdr)
-    (define page_entry (hash-ref PAMT hpa_tdr #f))
-    (define page_state 
-        (if (PAMT_entry? page_entry)
-            (PAMT_entry-PAGE_TYPE page_entry)
-            #f))
-    (define fatal (TDR-FATAL tdr))
-    (define init (TDR-INIT tdr))
-    (define lifecycle_state (TDR-LIFECYCLE_STATE tdr))
+; (define (TDH_MNG_ADDCX hpa_tdr hpa_tdcx tdr)
+;     (define page_entry (hash-ref PAMT hpa_tdr #f))
+;     (define page_state 
+;         (if (PAMT_entry? page_entry)
+;             (PAMT_entry-PAGE_TYPE page_entry)
+;             #f))
+;     (define fatal (TDR-FATAL tdr))
+;     (define init (TDR-INIT tdr))
+;     (define lifecycle_state (TDR-LIFECYCLE_STATE tdr))
 
-    (define page_state_tdcx (hash-ref PAMT hpa #f))
-    ; (define num_tdcx (TDR-NUM_TDCX tdr)) we assume only one TDCX page per TDR for simplicity
-    (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED)
-        (or (equal? page_state_tdcx #f) (equal? page_state_tdcx PT_NDA)))
-        (begin
-            (hash-set! PAMT hpa_tdcx (make-PAMT_entry PT_TDCX 0 0))
-            (struct-copy TDR tdr
-                            [NUM_TDCX (+ num_tdcx 1)]
-                            [TDCX_PA hpa_tdcx]))))
-            ; (make-TDC) TODO: make TDC struct and return it as well
+;     (define page_state_tdcx (hash-ref PAMT hpa_tdcx #f))
+;    ; (define num_tdcx (TDR-NUM_TDCX tdr)) we assume only one TDCX page per TDR for simplicity
+;     (when (and (equal? page_state PT_TDR) (not fatal) (not init) (equal? lifecycle_state TD_KEYS_CONFIGURED)
+;         (or (equal? page_state_tdcx #f) (equal? page_state_tdcx PT_NDA)))
+;         (begin
+;             (hash-set! PAMT hpa_tdcx (make-PAMT_entry PT_TDCX 0 0))
+;             (struct-copy TDR tdr
+;                             [NUM_TDCX (+ num_tdcx 1)]
+;                             [TDCX_PA hpa_tdcx]))))
+;             ; (make-TDC) TODO: make TDC struct and return it as well
 
 
 
