@@ -28,3 +28,12 @@
 (displayln PAMT)
 
 (displayln "Step1 : TD creation Done : Life Cycle HKID Assigned (1)")
+
+(define pamt_entry1 (hash-ref PAMT pa1))
+(displayln (PAMT_entry-PAGE_TYPE pamt_entry1))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr1))
+
+(set! temp_tdr1 (TDH_MNG_KEY_CONFIG pa1 temp_tdr1))
+(displayln KET)
+(displayln (PAMT_entry-PAGE_TYPE pamt_entry1))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr1))
