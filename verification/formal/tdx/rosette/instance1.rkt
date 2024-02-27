@@ -1,0 +1,30 @@
+; Instance 1
+; Two TD's running
+#lang rosette
+
+
+(require (file "tables.rkt"))
+(require "tdx_lib.rkt")
+; (require "cache_instance_hkid.rkt")
+
+(displayln "Instance 1")
+
+; Instance1 configuration
+(define pa1 100000)
+(define pa2 107000)
+
+(define hkid1 5)
+(define hkid2 6)
+
+(define data1 21345)
+(define data2 10098)
+
+(printf "TD creation with hpa ~a and HKID ~a\n" pa1 hkid1)
+(printf "TD creation with hpa ~a and HKID ~a\n" pa2 hkid2)
+(define temp_tdr1 (TDH_MNG_CREATE pa1 hkid1))
+(define temp_tdr2 (TDH_MNG_CREATE pa2 hkid2))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr1))
+(displayln (TDR-LIFECYCLE_STATE temp_tdr2))
+(displayln PAMT)
+
+(displayln "TD creation Done")
