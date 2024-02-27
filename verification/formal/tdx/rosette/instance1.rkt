@@ -27,4 +27,4 @@
 (displayln (TDR-LIFECYCLE_STATE temp_tdr2))
 (displayln PAMT)
 
-(displayln "TD creation Done")
+(displayln "Step1 : TD creation Done : Life Cycle HKID Assigned (1)")
