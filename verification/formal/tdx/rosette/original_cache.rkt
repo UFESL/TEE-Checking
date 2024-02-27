@@ -1,99 +1,53 @@
 #lang rosette
 
-; Define the cache parameters
-(define kmax-cache-set-index 256)  ; Assuming a cache with 256 sets
-(define kmax-cache-way-index 4)    ; Assuming 4-way set associative cache
+(define kmax-cache-set-index-t 256) ; Number of sets
+(define kmax-cache-way-index-t 4)  ; Ways per set (assuming a 4-way associative cache for example)
 
-; Define the cache state variables
+; Initialize cache data structures with hash tables
 (define cache-valid-map (make-hash))
 (define cache-tag-map (make-hash))
-(define cache-data-map (make-hash)) ; Define a new hash map for storing data
+(define cache-data-map (make-hash))
 
-; Procedure to initialize the cache
+; Function to initialize the cache, setting all valid bits and data to default values
 (define (init-cache)
-  (for ([i (in-range kmax-cache-set-index)])
-    (for ([w (in-range kmax-cache-way-index)])
-      (hash-set! cache-valid-map (cons i w) #f)  ; Set cache line as invalid
-      (hash-set! cache-tag-map (cons i w) 0))))  ; Initialize tag with a default value
+  (for ([i (in-range kmax-cache-set-index-t)])
+    (for ([j (in-range kmax-cache-way-index-t)])
+      (define set-way (cons i j)) ; Create a set-way pair as the key
+      (hash-set! cache-valid-map set-way #false)
+      (hash-set! cache-data-map set-way 0))))
 
-; Function to calculate the cache set index from an address
-(define (address-to-set-index address)
-  (remainder address kmax-cache-set-index))
+; Simplified functions for mapping addresses to sets and tags
+(define (paddr2set pa) (modulo pa kmax-cache-set-index-t))
+(define (paddr2tag pa) (/ pa kmax-cache-set-index-t))
 
-; Function to calculate the tag from an address
-(define (address-to-tag address)
-  (quotient address kmax-cache-set-index))
+; Function to determine data for an address (placeholder, implement as needed)
+(define (paddr2data pa)
+  (* pa 2)) ; Placeholder for actual data retrieval based on address
 
-; Function to simulate writing to the cache
-(define (write-to-cache address data)
-  (let ([set-index (address-to-set-index address)]
-        [tag (address-to-tag address)])
-    (if (and (hash-ref cache-valid-map (cons set-index 0) #f)  ; Check if the cache line is valid
-             (= (hash-ref cache-tag-map (cons set-index 0) -1) tag))  ; Check if the tag matches
-        (begin  ; Write hit: Update data
-          (hash-set! cache-data-map (cons set-index 0) data)
-          'write-hit)
-        (begin  ; Write miss: Update cache line, tag, and data
-          (hash-set! cache-valid-map (cons set-index 0) #t)
-          (hash-set! cache-tag-map (cons set-index 0) tag)
-          (hash-set! cache-data-map (cons set-index 0) data)
-          'write-miss))))  ; Return 'write-miss
+; Function to query the cache, checks for hit or miss, updates cache on miss, and handles data
+(define (query-cache pa repl-way)
+  (define set (paddr2set pa))
+  (define tag (paddr2tag pa))
+  (define data (paddr2data pa)) ; Get data for the address
+  (define hit-way (for/or ([way (in-range kmax-cache-way-index-t)])
+                   (define set-way (cons set way)) ; Use set-way pair as the key
+                   (and (hash-ref cache-valid-map set-way #false)
+                        (= (hash-ref cache-tag-map set-way 0) tag)
+                        way)))
+  (if hit-way
+      (begin
+        (values #true hit-way (hash-ref cache-data-map (cons set hit-way) 0)))
+      (begin
+        ; Update the cache on miss
+        (define set-repl-way (cons set repl-way))
+        (hash-set! cache-valid-map set-repl-way #true)
+        (hash-set! cache-tag-map set-repl-way tag)
+        (hash-set! cache-data-map set-repl-way data) ; Store the data
+        (values #false repl-way data))))
 
-; Function to simulate reading from the cache
-(define (read-from-cache address)
-  (let ([set-index (address-to-set-index address)]
-        [tag (address-to-tag address)])
-    (if (and (hash-ref cache-valid-map (cons set-index 0) #f)  ; Check if the cache line is valid
-             (= (hash-ref cache-tag-map (cons set-index 0) -1) tag))  ; Check if the tag matches
-        'cache-hit  ; Return 'cache-hit if valid and tags match
-        (begin  ; Cache miss handling
-          (hash-set! cache-valid-map (cons set-index 0) #t)  ; Update the cache line to valid
-          (hash-set! cache-tag-map (cons set-index 0) tag)  ; Update the tag
-          'cache-miss))))  ; Return 'cache-miss
-
-
-
-; Initialize the cache
+; Example of initializing the cache and querying it
 (init-cache)
-
-; Example operation to check the validity of a cache line
-(define (is-valid? set-index way-index)
-  (hash-ref cache-valid-map (cons set-index way-index) #f))
-
-; Example operation to print cache state (for debugging purposes)
-(define (print-cache-state)
-  (for ([i (in-range kmax-cache-set-index)])
-    (for ([w (in-range kmax-cache-way-index)])
-      (printf "Set: ~a, Way: ~a, Valid: ~a, Tag: ~a\n"
-              i w
-              (is-valid? i w)
-              (hash-ref cache-tag-map (cons i w) 0)))))
-
-; Function to print the state of a cache line given an address
-(define (print-cache-line-state address)
-  (let* ([set-index (address-to-set-index address)]
-         [tag (address-to-tag address)]
-         [valid? (hash-ref cache-valid-map (cons set-index 0) #f)]
-         [cached-tag (hash-ref cache-tag-map (cons set-index 0) -1)]
-         [data (hash-ref cache-data-map (cons set-index 0) 'no-data)])
-    (printf "Address: ~a\nSet Index: ~a\nTag: ~a (Expected: ~a)\nValid: ~a\nData: ~a\n"
-            address set-index cached-tag tag valid? data)))
-
-
-
-; Example usage
-; Call the print function to display the initial cache state
-(print-cache-state)
-
-; Example write
-(define example-address 1024)
-(define example-data "example-data")
-(define result-write (write-to-cache example-address example-data))
-(printf "Writing to address ~a resulted in a ~a\n" example-address result-write)
-
-; Example read
-(define result-read (read-from-cache example-address))
-(printf "Reading from address ~a resulted in a ~a\n" example-address result-read)
-
-(print-cache-line-state example-address)
-
+(define-values (hit hit-way data) (query-cache 12345 2))
+(displayln (list 'hit hit 'way hit-way 'data data))
+(define-values (hit1 hit-way1 data1) (query-cache 12345 1))
+(displayln (list 'hit hit1 'way hit-way1 'data data1))
