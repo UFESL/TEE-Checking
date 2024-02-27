@@ -45,14 +45,14 @@
           (hash-set! cache-hkid-map key hkid)) ; Store the HKID
         (values #false repl-way 0)))) ; Assume no data to return initially
 
-; Initialize and test the updated cache system with HKID
-(init-cache)
-; Example query with address and HKID
-(define-values (hit hit-way hit-data) (query-cache 12345 2 7))
-(displayln (list 'hit hit 'way hit-way 'data hit-data))
+; ; Initialize and test the updated cache system with HKID
+; (init-cache)
+; ; Example query with address and HKID
+; (define-values (hit hit-way hit-data) (query-cache 12345 2 7))
+; (displayln (list 'hit hit 'way hit-way 'data hit-data))
 
-(define-values (hit1 hit-way1 hit-data1) (query-cache 12345 2 8))
-(displayln (list 'hit hit1 'way hit-way1 'data hit-data1))
+; (define-values (hit1 hit-way1 hit-data1) (query-cache 12345 2 8))
+; (displayln (list 'hit hit1 'way hit-way1 'data hit-data1))
 
-(define-values (hit2 hit-way2 hit-data2) (query-cache 12345 2 8))
-(displayln (list 'hit hit2 'way hit-way2 'data hit-data2))
+; (define-values (hit2 hit-way2 hit-data2) (query-cache 12345 2 8))
+; (displayln (list 'hit hit2 'way hit-way2 'data hit-data2))
