@@ -340,61 +340,63 @@
 ; Example TD creation and key resource assignment sequence
 
 
-(displayln "TD creation with hpa 0 and HKID 5")
+; (displayln "TD creation with hpa 0 and HKID 5")
 
-(define temp_tdr (TDH_MNG_CREATE 0 5))
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln PAMT)
+; (define temp_tdr (TDH_MNG_CREATE 0 5))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (displayln PAMT)
 
-(displayln "TD creation Done")
+; (displayln "TD creation Done")
 
-(define pamt_entry (hash-ref PAMT 0))
-(displayln (PAMT_entry-PAGE_TYPE pamt_entry))
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (define pamt_entry (hash-ref PAMT 0))
+; (displayln (PAMT_entry-PAGE_TYPE pamt_entry))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
 
-(set! temp_tdr (TDH_MNG_KEY_CONFIG 0 temp_tdr))
-(displayln KET)
-(displayln (PAMT_entry-PAGE_TYPE pamt_entry))
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (set! temp_tdr (TDH_MNG_KEY_CONFIG 0 temp_tdr))
+; (displayln KET)
+; (displayln (PAMT_entry-PAGE_TYPE pamt_entry))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
 
-; Example init and finalize sequence
-(displayln "Initializing TDR:")
-(displayln (TDR-INIT temp_tdr))
-(set! temp_tdr (TDH_MNG_INIT 0 temp_tdr))
-(displayln (TDR-INIT temp_tdr))
+; ; Example init and finalize sequence
+; (displayln "Initializing TDR:")
+; (displayln (TDR-INIT temp_tdr))
+; (set! temp_tdr (TDH_MNG_INIT 0 temp_tdr))
+; (displayln (TDR-INIT temp_tdr))
 
-(displayln "Finalizing TDR:")
-(displayln (TDR-FINALIZED temp_tdr))
-(set! temp_tdr (TDH_MNG_FINALIZE 0 temp_tdr))
-(displayln (TDR-FINALIZED temp_tdr))
+; (displayln "Finalizing TDR:")
+; (displayln (TDR-FINALIZED temp_tdr))
+; (set! temp_tdr (TDH_MNG_FINALIZE 0 temp_tdr))
+; (displayln (TDR-FINALIZED temp_tdr))
 
-; Example blocking a TDR
-(displayln "Blocking TDR:")
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
-(set! temp_tdr (TDH_MNG_VPFLUSH 0 temp_tdr))
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+; ; Example blocking a TDR
+; (displayln "Blocking TDR:")
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+; (set! temp_tdr (TDH_MNG_VPFLUSH 0 temp_tdr))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (displayln (hash-ref KOT (TDR-HKID temp_tdr)))
 
-; Example teardown of a TDR
-(displayln "Tearing down TDR:")
+; ; Example teardown of a TDR
+; (displayln "Tearing down TDR:")
 
-(define target_HKID (TDR-HKID temp_tdr))
+; (define target_HKID (TDR-HKID temp_tdr))
 
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln (hash-ref KOT (TDR-HKID temp_tdr)))
-(set! temp_tdr (TDH_MNG_KEY_FREEID 0 temp_tdr))
-(displayln (TDR-LIFECYCLE_STATE temp_tdr))
-(displayln (hash-ref KOT target_HKID))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (displayln (hash-ref KOT (TDR-HKID temp_tdr)))
+; (set! temp_tdr (TDH_MNG_KEY_FREEID 0 temp_tdr))
+; (displayln (TDR-LIFECYCLE_STATE temp_tdr))
+; (displayln (hash-ref KOT target_HKID))
 
-(displayln "Freeing the TDR's page")
-(displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
-(TDH_PHYMEM_PAGE_RECLAIM 0 temp_tdr)
-(displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
+; (displayln "Freeing the TDR's page")
+; (displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
+; (TDH_PHYMEM_PAGE_RECLAIM 0 temp_tdr)
+; (displayln (PAMT_entry-PAGE_TYPE (hash-ref PAMT 0)))
 
-; Cache testing
-(hash-set! cache 1 (make-cache_entry 0 0 0 0))
-(hash-set! cache 2 (make-cache_entry 0 0 0 0))
-(hash-set! cache 3 (make-cache_entry 0 1 0 0))
-(flush_cache 0)
-(displayln cache)
+; ; Cache testing
+; (hash-set! cache 1 (make-cache_entry 0 0 0 0))
+; (hash-set! cache 2 (make-cache_entry 0 0 0 0))
+; (hash-set! cache 3 (make-cache_entry 0 1 0 0))
+; (flush_cache 0)
+; (displayln cache)
+
+(provide (all-defined-out))
