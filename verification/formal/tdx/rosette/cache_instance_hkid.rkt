@@ -1,4 +1,5 @@
 #lang rosette
+; (require rnrs/arithmetic/bitwise-6)   
 
 (define kmax-cache-set-index-t 256) ; Number of sets
 (define kmax-cache-way-index-t 4)   ; Ways per set (assuming a 4-way associative cache for example)
@@ -19,10 +20,18 @@
         (hash-set! cache-tag-map key 0)
         (hash-set! cache-hkid-map key 0))))) ; Initialize HKID map
 
-; Simplified functions for mapping addresses to sets and tags
-(define (paddr2set pa) (modulo pa kmax-cache-set-index-t))
-(define (paddr2tag pa) (/ pa kmax-cache-set-index-t))
+; ; Simplified functions for mapping addresses to sets and tags
+; (define (paddr2set pa) (modulo pa kmax-cache-set-index-t))
+; (define (paddr2tag pa) (/ pa kmax-cache-set-index-t))
 
+; Function to extract the set index from a 28-bit physical address
+(define (paddr2set pa)
+   (bitvector->integer (extract 27 12 pa)))
+
+; Function to extract the tag from a 28-bit physical address
+(define (paddr2tag pa)
+  (bitvector->integer (extract 11 4 pa)))
+  
 ; Function to query the cache, checks for hit or miss, updates cache on miss, handles data, and considers HKID
 (define (query-cache pa repl-way hkid)
   (define set (paddr2set pa))
@@ -56,3 +65,5 @@
 
 ; (define-values (hit2 hit-way2 hit-data2) (query-cache 12345 2 8))
 ; (displayln (list 'hit hit2 'way hit-way2 'data hit-data2))
+
+(provide (all-defined-out))
