@@ -122,3 +122,23 @@
     [('SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
     [('SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
     [_ (error "Invalid Transition!")]))
+
+
+;; Memory Encryption Key Table: Maps ASIDs to VEKs (encryption keys)
+(define MEKT (make-hash))
+
+(define/contract MEKT-contract
+  (hash/c integer? integer?)
+  MEKT)
+
+;; Assign a VEK to an ASID
+(define (assign-vek asid vek)
+  (hash-set! MEKT asid vek))
+
+;; Retrieve a VEK for an ASID
+(define (get-vek asid)
+  (hash-ref MEKT asid #f))
+
+;; Delete a VEK from the table
+(define (delete-vek asid)
+  (hash-remove! MEKT asid))
