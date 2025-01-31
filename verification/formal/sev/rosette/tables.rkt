@@ -24,3 +24,26 @@
                                  (list-ref guest 7) (list-ref guest 8)))))
 
 
+
+;; ASID Table: Maps ASIDs to guest handles
+(define ASIDT (make-hash))
+
+(define/contract ASIDT-contract
+  (hash/c integer? integer?)
+  ASIDT)
+
+;; Allocate an ASID to a guest
+(define (SEV_ASID_ALLOC handle asid)
+  (when (not (hash-has-key? ASIDT asid))
+    (hash-set! ASIDT asid handle)))
+
+;; Free an ASID
+(define (SEV_ASID_FREE asid)
+  (when (hash-has-key? ASIDT asid)
+    (hash-remove! ASIDT asid)))
+
+;; Retrieve the owner of an ASID
+(define (get-asid-owner asid)
+  (hash-ref ASIDT asid #f))
+
+
