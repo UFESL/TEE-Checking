@@ -94,3 +94,31 @@
 (define (is-migration-allowed? handle)
   (not (list-ref (hash-ref GuestPolicy handle '(#t #t #t #t #t #t)) 3)))
 
+
+
+;; Guest State Machine: Tracks state transitions of each guest
+(define GSTATE (make-hash))
+
+(define/contract GSTATE-contract
+  (hash/c integer? symbol?)
+  GSTATE)
+
+;; Set the state of a guest
+(define (set-guest-state handle new-state)
+  (hash-set! GSTATE handle new-state))
+
+;; Retrieve the state of a guest
+(define (get-guest-state handle)
+  (hash-ref GSTATE handle 'UNINIT))
+
+;; Transition guest state based on lifecycle events
+(define (transition-guest handle event)
+  (define current-state (hash-ref GSTATE handle 'UNINIT))
+  (match (list current-state event)
+    [('UNINIT 'LAUNCH_START) (set-guest-state handle 'LUPDATE)]
+    [('LUPDATE 'LAUNCH_UPDATE_DATA) (set-guest-state handle 'LSECRET)]
+    [('LSECRET 'LAUNCH_FINISH) (set-guest-state handle 'RUNNING)]
+    [('RUNNING 'SEND_START) (set-guest-state handle 'SUPDATE)]
+    [('SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
+    [('SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
+    [_ (error "Invalid Transition!")]))
