@@ -67,3 +67,30 @@
 ;; Check if a page is encrypted
 (define (is-page-encrypted? phys_addr)
   (equal? (hash-ref PEB phys_addr 'UNKNOWN) 'ENCRYPTED))
+
+
+
+
+;; Guest Policy Table: Stores security policies for each guest
+(define GuestPolicy (make-hash))
+
+(define/contract GuestPolicy-contract
+  (hash/c integer? (list/c boolean? boolean? boolean? boolean? boolean? boolean?))
+  GuestPolicy)
+
+;; Set policy restrictions for a guest
+(define (set-guest-policy handle nodbg noks es nosend domain sev)
+  (hash-set! GuestPolicy handle (list nodbg noks es nosend domain sev)))
+
+;; Retrieve a guest's policy
+(define (get-guest-policy handle)
+  (hash-ref GuestPolicy handle #f))
+
+;; Check if debugging is allowed for a guest
+(define (is-debugging-allowed? handle)
+  (not (car (hash-ref GuestPolicy handle '(#t #t #t #t #t #t)))))
+
+;; Check if migration is allowed for a guest
+(define (is-migration-allowed? handle)
+  (not (list-ref (hash-ref GuestPolicy handle '(#t #t #t #t #t #t)) 3)))
+
