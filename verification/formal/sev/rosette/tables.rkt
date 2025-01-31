@@ -282,3 +282,47 @@
   (define current-state (get-guest-state handle))
   (when (equal? current-state 'LSECRET)
     (set-guest-state handle 'RUNNING)))
+
+
+
+;; ACTIVATE: Assigns ASID and loads encryption keys
+(define (ACTIVATE handle)
+  (define current-state (get-guest-state handle))
+  (when (or (equal? current-state 'LUPDATE) (equal? current-state 'LSECRET))
+    ;; Generate a new encryption key (symbolic)
+    (define vek (bv 128 256))  ;; 256-bit symbolic AES key
+    
+    ;; Retrieve ASID from guest context
+    (define guest (get-guest handle))
+    (define asid (cadr guest))  ;; ASID is stored in the second field
+
+    ;; Assign VEK to ASID
+    (assign-vek asid vek)
+    
+    ;; Update Guest Context with VEK
+    (hash-set! GCTX handle (append guest (list vek)))
+    
+    ;; Transition guest state to RUNNING
+    (set-guest-state handle 'RUNNING)))
+
+
+
+;; DEACTIVATE: Deallocates ASID and clears encryption keys
+(define (DEACTIVATE handle)
+  (define current-state (get-guest-state handle))
+  (when (equal? current-state 'RUNNING)
+    ;; Retrieve ASID from guest context
+    (define guest (get-guest handle))
+    (define asid (cadr guest))  ;; ASID is stored in the second field
+    
+    ;; Remove encryption key
+    (delete-vek asid)
+    
+    ;; Free ASID
+    (SEV_ASID_FREE asid)
+
+    ;; Reset guest context
+    (hash-remove! GCTX handle)
+    
+    ;; Transition guest state to UNINIT
+    (set-guest-state handle 'UNINIT)))
