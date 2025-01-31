@@ -47,3 +47,23 @@
   (hash-ref ASIDT asid #f))
 
 
+
+
+;; Page Encryption Table: Maps physical addresses to encryption status
+(define PEB (make-hash))
+
+(define/contract PEB-contract
+  (hash/c integer? symbol?)
+  PEB)
+
+;; Mark a page as encrypted
+(define (SEV_ENCRYPT_PAGE phys_addr)
+  (hash-set! PEB phys_addr 'ENCRYPTED))
+
+;; Mark a page as decrypted
+(define (SEV_DECRYPT_PAGE phys_addr)
+  (hash-set! PEB phys_addr 'DECRYPTED))
+
+;; Check if a page is encrypted
+(define (is-page-encrypted? phys_addr)
+  (equal? (hash-ref PEB phys_addr 'UNKNOWN) 'ENCRYPTED))
