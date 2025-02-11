@@ -1,6 +1,10 @@
 #lang rosette
 
-;; Guest Context Table: Maps guest handles to their state and encryption properties
+#|
+Guest Context Table 
+Maps guest handles to their state and encryption properties
+|#
+
 (define GCTX (make-hash))
 
 (define/contract GCTX-contract
