@@ -1,6 +1,10 @@
 #lang rosette
 
-;; Guest Context Table: Maps guest handles to their state and encryption properties
+#|
+Guest Context Table 
+Maps guest handles to their state and encryption properties
+|#
+
 (define GCTX (make-hash))
 
 (define/contract GCTX-contract
@@ -22,7 +26,6 @@
     (hash-set! GCTX handle (list new-state (cadr guest) (caddr guest) (cadddr guest)
                                  (list-ref guest 4) (list-ref guest 5) (list-ref guest 6)
                                  (list-ref guest 7) (list-ref guest 8)))))
-
 
 
 ;; ASID Table: Maps ASIDs to guest handles
@@ -47,8 +50,6 @@
   (hash-ref ASIDT asid #f))
 
 
-
-
 ;; Page Encryption Table: Maps physical addresses to encryption status
 (define PEB (make-hash))
 
@@ -67,8 +68,6 @@
 ;; Check if a page is encrypted
 (define (is-page-encrypted? phys_addr)
   (equal? (hash-ref PEB phys_addr 'UNKNOWN) 'ENCRYPTED))
-
-
 
 
 ;; Guest Policy Table: Stores security policies for each guest
@@ -93,7 +92,6 @@
 ;; Check if migration is allowed for a guest
 (define (is-migration-allowed? handle)
   (not (list-ref (hash-ref GuestPolicy handle '(#t #t #t #t #t #t)) 3)))
-
 
 
 ;; Guest State Machine: Tracks state transitions of each guest

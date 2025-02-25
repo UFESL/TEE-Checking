@@ -1,123 +1,124 @@
 #lang rosette
 
-; Define the cache parameters
-(define kmax-cache-set-index 256)  ; Assuming a cache with 256 sets
-(define kmax-cache-way-index 4)    ; Assuming 4-way set associative cache
+(require rackunit)
+(require (file "tables.rkt"))
+(require (file "abi.rkt"))
 
-; Define the cache state variables
-(define cache-valid-map (make-hash))
-(define cache-tag-map (make-hash))
-(define cache-hkid-map (make-hash)) ; Define a new hash map for storing HKIDs
-(define cache-data-map (make-hash)) ; Define a new hash map for storing data
+;; Test Guest Context Table
+(define (test-gctx)
+  (add-guest 1 'UNINIT 1001 0 1111 2222 3333 4444 5555)
+  (check-equal? (get-guest 1) '(UNINIT 1001 0 1111 2222 3333 4444 5555) "Guest should be initialized")
+  (update-guest-state 1 'RUNNING)
+  (check-equal? (get-guest 1) '(RUNNING 1001 0 1111 2222 3333 4444 5555) "Guest state should be updated to RUNNING"))
+(test-gctx)
 
-; Procedure to initialize the cache
-(define (init-cache)
-  (for ([i (in-range kmax-cache-set-index)])
-    (for ([w (in-range kmax-cache-way-index)])
-      (hash-set! cache-valid-map (cons i w) #f)  ; Set cache line as invalid
-      (hash-set! cache-tag-map (cons i w) 0)     ; Initialize tag with a default value
-      (hash-set! cache-hkid-map (cons i w) 0)))) ; Initialize HKID with a default value
 
-; Function to calculate the cache set index from an address
-(define (address-to-set-index address)
-  (remainder address kmax-cache-set-index))
+;; Test ASID Table
+(define (test-asidt)
+  (SEV_ASID_ALLOC 1 1001)
+  (check-equal? (get-asid-owner 1001) 1 "ASID 1001 should be assigned to guest 1")
+  (SEV_ASID_FREE 1001)
+  (check-false (get-asid-owner 1001) "ASID 1001 should be freed and return #f"))
+(test-asidt)
 
-; Function to calculate the tag from an address
-(define (address-to-tag address)
-  (quotient address kmax-cache-set-index))
 
-(define (write-to-cache address hkid data)
-  (let* ([set-index (address-to-set-index address)]
-         [tag (address-to-tag address)]
-         [way-found (for/or ([w (in-range kmax-cache-way-index)])  ; Look for a match or empty slot
-                            (let ([way (cons set-index w)])
-                              (or (not (hash-ref cache-valid-map way #f))  ; Cache line is invalid
-                                  (= (hash-ref cache-tag-map way -1) tag)  ; Tag matches
-                                  (= (hash-ref cache-hkid-map way -1) hkid))  ; HKID matches
-                              way))])  ; Return the way if found
-
-    (if way-found
-        (begin
-          ;; Update the cache at the found way
-          (hash-set! cache-valid-map way-found #t)
-          (hash-set! cache-tag-map way-found tag)
-          (hash-set! cache-hkid-map way-found hkid)
-          (hash-set! cache-data-map way-found data)
-          'write-hit)  ; Direct write, analogous to no cache miss
-        (begin
-          ;; Use random replacement policy
-          (let ([random-way (cons set-index (random kmax-cache-way-index))])
-            ;; Update the cache at the randomly selected way
-            (hash-set! cache-valid-map random-way #t)
-            (hash-set! cache-tag-map random-way tag)
-            (hash-set! cache-hkid-map random-way hkid)
-            (hash-set! cache-data-map random-way data))
-          'cache-miss-replaced))))  ; Data written by replacing an existing entry, analogous to handling a cache miss
+;; Test Page Encryption Table
+(define (test-peb)
+  (SEV_ENCRYPT_PAGE 0x1000)
+  (check-true (is-page-encrypted? 0x1000) "Page 0x1000 should be encrypted")
+  (SEV_DECRYPT_PAGE 0x1000)
+  (check-false (is-page-encrypted? 0x1000) "Page 0x1000 should be decrypted"))
+(test-peb)
 
 
 
-
-; ; Function to simulate reading from the cache, considering HKID
-; (define (read-from-cache address hkid)
-;   (let ([set-index (address-to-set-index address)]
-;         [tag (address-to-tag address)])
-;     (for ([w (in-range kmax-cache-way-index)])
-;       (when (and (hash-ref cache-valid-map (cons set-index w) #f)  ; Cache line is valid
-;                  (= (hash-ref cache-tag-map (cons set-index w) -1) tag)  ; Tag matches
-;                  (= (hash-ref cache-hkid-map (cons set-index w) -1) hkid))  ; HKID matches
-;         (return 'cache-hit))))
-;   'cache-miss)  ; Return 'cache-miss if no matching way was found
-
-(define (print-cache)
-  (for ([i (in-range kmax-cache-set-index)])
-    (for ([w (in-range kmax-cache-way-index)])
-      (let ([way (cons i w)])
-        (printf "Set: ~a, Way: ~a, Valid: ~a, Tag: ~a, HKID: ~a, Data: ~a\n"
-                i w
-                (hash-ref cache-valid-map way #f)
-                (hash-ref cache-tag-map way -1)
-                (hash-ref cache-hkid-map way -1)
-                (hash-ref cache-data-map way '(no-data)))))))
-
-(define (print-cache-address address hkid)
-  (let* ([set-index (address-to-set-index address)]
-         [tag (address-to-tag address)])
-    (printf "Searching for Address: ~a (Set: ~a, Tag: ~a, HKID: ~a)\n" address set-index tag hkid)
-    (let loop ([w 0])  ; Named let for looping
-      (if (< w kmax-cache-way-index)
-          (let ([way (cons set-index w)])
-            (when (and (hash-ref cache-valid-map way #f)  ; Cache line is valid
-                       (= (hash-ref cache-tag-map way -1) tag)  ; Tag matches
-                       (= (hash-ref cache-hkid-map way -1) hkid))  ; HKID matches
-              (printf "Cache Hit at Way: ~a, Data: ~a\n" w (hash-ref cache-data-map way '(no-data))))
-            (loop (+ w 1)))  ; Recursive call to loop for the next way
-          (void)))))  ; Do nothing if w >= kmax-cache-way-index, ending the loop
+;; Test Guest Policy Table
+(define (test-guestpolicy)
+  (set-guest-policy 1 #t #f #t #f #t #t)  ;; Debugging disabled, Migration allowed
+  (check-false (is-debugging-allowed? 1) "Debugging should not be allowed")
+  (check-true (is-migration-allowed? 1) "Migration should be allowed"))
+(test-guestpolicy)
 
 
 
-; Initialize the cache
-(init-cache)
-; (print-cache)
+;; Test Guest State Machine
+(define (test-gstate)
+  (check-equal? (get-guest-state 1) 'UNINIT "Guest should start in UNINIT state")
+  (transition-guest 1 'LAUNCH_START)
+  (check-equal? (get-guest-state 1) 'LUPDATE "Guest should transition to LUPDATE")
+  (transition-guest 1 'LAUNCH_UPDATE_DATA)
+  (check-equal? (get-guest-state 1) 'LSECRET "Guest should transition to LSECRET")
+  (transition-guest 1 'LAUNCH_FINISH)
+  (check-equal? (get-guest-state 1) 'RUNNING "Guest should transition to RUNNING"))
+(test-gstate)
 
-; Example write
-(define example-address 10000)
-(define example-hkid 10)
-(define example-data "example-data")
-(define result-write (write-to-cache example-address example-hkid example-data))
-(printf "Writing to address ~a resulted in a ~a\n" example-address result-write)
 
-(print-cache-address example-address example-hkid)
 
-(print-cache-address example-address 20)
+;; Test Memory Encryption Key Table
+(define (test-mekt)
+  (assign-vek 1001 0xABCD)
+  (check-equal? (get-vek 1001) 0xABCD "VEK for ASID 1001 should be 0xABCD")
+  (delete-vek 1001)
+  (check-false (get-vek 1001) "VEK for ASID 1001 should be deleted"))
+(test-mekt)
 
-(define result-write1 (write-to-cache example-address example-hkid "hhh"))
-(printf "Writing to address ~a resulted in a ~a\n" example-address result-write1)
 
-(print-cache-address example-address example-hkid)
 
-(define example-address1 10000)
-(define example-set-index (address-to-set-index example-address1))
-(printf " address ~a set index ~a\n" example-address1 example-set-index)
+;  TEST CASES for ABIs
 
-(define example-tag (address-to-tag example-address1))
-(printf " address ~a tag ~a\n" example-address1 example-tag)
+
+(define (test-launch-start)
+  (LAUNCH_START 1 1001 0) ;; Handle = 1, ASID = 1001, Policy = 0
+  (check-equal? (get-guest-state 1) 'LUPDATE "Guest should be in LUPDATE state")
+  (check-equal? (get-asid-owner 1001) 1 "ASID 1001 should be assigned to guest 1"))
+
+(test-launch-start)
+
+
+(define (test-launch-update-data)
+  (LAUNCH_UPDATE_DATA 1 '(0x1000 0x2000))
+  (check-equal? (get-guest-state 1) 'LSECRET "Guest should be in LSECRET state")
+  (check-true (is-page-encrypted? 0x1000) "Page 0x1000 should be encrypted")
+  (check-true (is-page-encrypted? 0x2000) "Page 0x2000 should be encrypted"))
+
+(test-launch-update-data)
+
+
+(define (test-launch-measure)
+  (LAUNCH_MEASURE 1)
+  (define guest (get-guest 1))
+  (check-true (not (equal? (list-ref guest 8) #f)) "Measurement should be computed and stored"))
+
+(test-launch-measure)
+
+
+(define (test-launch-secret)
+  (LAUNCH_SECRET 1 '(0xDEADBEEF))
+  (define guest (get-guest 1))
+  (check-true (not (equal? (list-ref guest 9) #f)) "Secrets should be securely injected"))
+
+(test-launch-secret)
+
+
+(define (test-launch-finish)
+  (LAUNCH_FINISH 1)
+  (check-equal? (get-guest-state 1) 'RUNNING "Guest should be in RUNNING state"))
+
+(test-launch-finish)
+
+
+(define (test-activate)
+  (ACTIVATE 1)
+  (check-equal? (get-guest-state 1) 'RUNNING "Guest should remain in RUNNING state after activation")
+  (check-true (not (equal? (get-vek 1001) #f)) "Encryption key should be assigned"))
+
+(test-activate)
+
+
+(define (test-deactivate)
+  (DEACTIVATE 1)
+  (check-equal? (get-guest-state 1) 'UNINIT "Guest should be in UNINIT state after deactivation")
+  (check-false (get-asid-owner 1001) "ASID 1001 should be freed")
+  (check-false (get-vek 1001) "Encryption key should be removed"))
+
+(test-deactivate)
