@@ -393,3 +393,45 @@
   (check-false (get-vek 1001) "Encryption key should be removed"))
 
 (test-deactivate)
+
+
+;; SEND_START: Prepares guest for migration
+(define (SEND_START handle)
+  (define current-state (get-guest-state handle))
+  (when (equal? current-state 'RUNNING)
+    (set-guest-state handle 'SUPDATE)))  ;; Transition to migration state
+
+
+;; SEND_UPDATE_DATA: Encrypts guest state before migration
+(define (SEND_UPDATE_DATA handle memory-pages)
+  (define current-state (get-guest-state handle))
+  (when (equal? current-state 'SUPDATE)
+    (for-each SEV_ENCRYPT_PAGE memory-pages) ;; Encrypt pages before sending
+    (set-guest-state handle 'SUPDATE))) ;; Stay in SUPDATE until transfer completes
+
+
+;; RECEIVE_UPDATE_DATA: Restores guest memory after migration
+(define (RECEIVE_UPDATE_DATA handle memory-pages)
+  (define current-state (get-guest-state handle))
+  (when (equal? current-state 'RUPDATE)
+    (for-each SEV_DECRYPT_PAGE memory-pages) ;; Decrypt received pages
+    (set-guest-state handle 'RUNNING)))  ;; Guest is now fully active
+
+
+;; DECOMMISSION: Securely deletes guest encryption key
+(define (DECOMMISSION handle)
+  (define current-state (get-guest-state handle))
+  (when (equal? current-state 'SENT)
+    (define guest (get-guest handle))
+    (define asid (cadr guest)) ;; Retrieve ASID
+    
+    ;; Securely remove encryption keys and ASID
+    (delete-vek asid)
+    (SEV_ASID_FREE asid)
+    
+    ;; Remove guest entry
+    (hash-remove! GCTX handle)
+    
+    ;; Reset guest state
+    (set-guest-state handle 'UNINIT)))
+
