@@ -113,13 +113,14 @@ Maps guest handles to their state and encryption properties
 (define (transition-guest handle event)
   (define current-state (hash-ref GSTATE handle 'UNINIT))
   (match (list current-state event)
-    [('UNINIT 'LAUNCH_START) (set-guest-state handle 'LUPDATE)]
-    [('LUPDATE 'LAUNCH_UPDATE_DATA) (set-guest-state handle 'LSECRET)]
-    [('LSECRET 'LAUNCH_FINISH) (set-guest-state handle 'RUNNING)]
-    [('RUNNING 'SEND_START) (set-guest-state handle 'SUPDATE)]
-    [('SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
-    [('SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
+    [(list 'UNINIT 'LAUNCH_START) (set-guest-state handle 'LUPDATE)]
+    [(list 'LUPDATE 'LAUNCH_UPDATE_DATA) (set-guest-state handle 'LSECRET)]
+    [(list 'LSECRET 'LAUNCH_FINISH) (set-guest-state handle 'RUNNING)]
+    [(list 'RUNNING 'SEND_START) (set-guest-state handle 'SUPDATE)]
+    [(list 'SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
+    [(list 'SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
     [_ (error "Invalid Transition!")]))
+
 
 
 ;; Memory Encryption Key Table: Maps ASIDs to VEKs (encryption keys)
@@ -140,3 +141,14 @@ Maps guest handles to their state and encryption properties
 ;; Delete a VEK from the table
 (define (delete-vek asid)
   (hash-remove! MEKT asid))
+
+
+(provide GCTX get-guest-state set-guest-state get-guest SEV_ASID_ALLOC SEV_ASID_FREE SEV_ENCRYPT_PAGE SEV_DECRYPT_PAGE assign-vek delete-vek)
+
+(provide add-guest get-guest update-guest-state set-guest-state get-guest-state
+         SEV_ASID_ALLOC SEV_ASID_FREE get-asid-owner
+         SEV_ENCRYPT_PAGE SEV_DECRYPT_PAGE is-page-encrypted?
+         set-guest-policy get-guest-policy is-debugging-allowed? is-migration-allowed?
+         transition-guest assign-vek delete-vek get-vek)
+  
+

@@ -1,5 +1,7 @@
 #lang rosette
 
+(require "tables.rkt")
+
 ;; LAUNCH_START: Initializes a new SEV guest
 (define (LAUNCH_START handle asid policy)
   (define current-state (get-guest-state handle))
@@ -22,7 +24,7 @@
   (define current-state (get-guest-state handle))
   (when (equal? current-state 'LSECRET)
     (define guest (get-guest handle))
-    (define measurement (bv 0xDEADBEEF 64)) ;; Placeholder for actual measurement computation
+    (define measurement (bv #xDEADBEEF 64)) ;; Placeholder for actual measurement computation
     (hash-set! GCTX handle (append guest (list measurement))) ;; Store measurement
     (set-guest-state handle 'LSECRET))) ;; Remains in LSECRET state
 
@@ -32,7 +34,7 @@
   (define current-state (get-guest-state handle))
   (when (equal? current-state 'LSECRET)
     (define guest (get-guest handle))
-    (define encrypted-secrets (bv 0xCAFEBABE 64)) ;; Placeholder for actual encryption
+    (define encrypted-secrets (bv #xCAFEBABE 64)) ;; Placeholder for actual encryption
     (hash-set! GCTX handle (append guest (list encrypted-secrets))) ;; Store encrypted secrets
     (set-guest-state handle 'LSECRET))) ;; Remains in LSECRET state
 
@@ -119,3 +121,6 @@
     
     ;; Reset guest state
     (set-guest-state handle 'UNINIT)))
+
+
+(provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION)    
