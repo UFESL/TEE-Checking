@@ -8,12 +8,12 @@ Maps guest handles to their state and encryption properties
 (define GCTX (make-hash))
 
 (define/contract GCTX-contract
-  (hash/c integer? (list/c symbol? integer? integer? integer? integer? integer? integer? integer?))
+  (hash/c integer? (list/c symbol? integer? integer? integer? integer? integer? integer? integer? boolean?))
   GCTX)
 
 ;; Add a new guest entry to the GCTX table
 (define (add-guest handle state asid policy vek tek tik nonce ms)
-  (hash-set! GCTX handle (list state asid policy vek tek tik nonce ms)))
+  (hash-set! GCTX handle (list state asid policy vek tek tik nonce ms #f)))
 
 ;; Retrieve a guest entry from GCTX
 (define (get-guest handle)
@@ -23,9 +23,7 @@ Maps guest handles to their state and encryption properties
 (define (update-guest-state handle new-state)
   (when (hash-has-key? GCTX handle)
     (define guest (hash-ref GCTX handle))
-    (hash-set! GCTX handle (list new-state (cadr guest) (caddr guest) (cadddr guest)
-                                 (list-ref guest 4) (list-ref guest 5) (list-ref guest 6)
-                                 (list-ref guest 7) (list-ref guest 8)))))
+    (hash-set! GCTX handle (cons new-state (cdr guest)))))
 
 
 ;; ASID Table: Maps ASIDs to guest handles
@@ -101,9 +99,10 @@ Maps guest handles to their state and encryption properties
   (hash/c integer? symbol?)
   GSTATE)
 
-;; Set the state of a guest
+;; Set the state of a guest in both GSTATE and GCTX
 (define (set-guest-state handle new-state)
-  (hash-set! GSTATE handle new-state))
+  (hash-set! GSTATE handle new-state)  ;; Update quick state tracking
+  (update-guest-state handle new-state))  ;; Call function to update GCTX
 
 ;; Retrieve the state of a guest
 (define (get-guest-state handle)
@@ -120,7 +119,6 @@ Maps guest handles to their state and encryption properties
     [(list 'SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
     [(list 'SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
     [_ (error "Invalid Transition!")]))
-
 
 
 ;; Memory Encryption Key Table: Maps ASIDs to VEKs (encryption keys)

@@ -5,6 +5,7 @@
 ;; LAUNCH_START: Initializes a new SEV guest
 (define (LAUNCH_START handle asid policy)
   (define current-state (get-guest-state handle))
+  (printf "DEBUG: Current state of guest ~a is: ~a\n" handle current-state)
   (when (equal? current-state 'UNINIT)
     (add-guest handle 'LUPDATE asid policy 0 0 0 0 0) ;; Initialize guest with zeroed encryption keys
     (SEV_ASID_ALLOC handle asid)
@@ -14,6 +15,7 @@
 ;; LAUNCH_UPDATE_DATA: Encrypts guest memory pages
 (define (LAUNCH_UPDATE_DATA handle memory-pages)
   (define current-state (get-guest-state handle))
+  (printf "DEBUG: Current state of guest ~a is: ~a\n" handle current-state)
   (when (equal? current-state 'LUPDATE)
     (for-each SEV_ENCRYPT_PAGE memory-pages) ;; Encrypt all pages
     (set-guest-state handle 'LSECRET)))
@@ -22,6 +24,7 @@
 ;; LAUNCH_MEASURE: Computes attestation measurement
 (define (LAUNCH_MEASURE handle)
   (define current-state (get-guest-state handle))
+  (printf "DEBUG: Current state of guest ~a is: ~a\n" handle current-state)
   (when (equal? current-state 'LSECRET)
     (define guest (get-guest handle))
     (define measurement (bv #xDEADBEEF 64)) ;; Placeholder for actual measurement computation
@@ -46,11 +49,10 @@
     (set-guest-state handle 'RUNNING)))
 
 
-
 ;; ACTIVATE: Assigns ASID and loads encryption keys
 (define (ACTIVATE handle)
   (define current-state (get-guest-state handle))
-  (when (or (equal? current-state 'LUPDATE) (equal? current-state 'LSECRET))
+  (when (or (equal? current-state 'RUNNING) (equal? current-state 'LSECRET))
     ;; Generate a new encryption key (symbolic)
     (define vek (bv 128 256))  ;; 256-bit symbolic AES key
     ;; Retrieve ASID from guest context
@@ -62,7 +64,6 @@
     (hash-set! GCTX handle (append guest (list vek)))
     ;; Transition guest state to RUNNING
     (set-guest-state handle 'RUNNING)))
-
 
 
 ;; DEACTIVATE: Deallocates ASID and clears encryption keys
