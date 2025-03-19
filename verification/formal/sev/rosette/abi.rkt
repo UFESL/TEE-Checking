@@ -52,7 +52,7 @@
 ;; ACTIVATE: Assigns ASID and loads encryption keys
 (define (ACTIVATE handle)
   (define current-state (get-guest-state handle))
-  (when (or (equal? current-state 'RUNNING) (equal? current-state 'LSECRET))
+  (when (equal? current-state 'RUNNING)
     ;; Generate a new encryption key (symbolic)
     (define vek (bv 128 256))  ;; 256-bit symbolic AES key
     ;; Retrieve ASID from guest context
