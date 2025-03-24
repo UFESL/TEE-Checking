@@ -8,12 +8,12 @@ Maps guest handles to their state and encryption properties
 (define GCTX (make-hash))
 
 (define/contract GCTX-contract
-  (hash/c integer? (list/c symbol? integer? integer? integer? integer? integer? integer? integer? boolean?))
+  (hash/c integer? (list/c symbol? integer? integer? integer? integer? integer? integer? integer? integer? boolean?))
   GCTX)
 
 ;; Add a new guest entry to the GCTX table
-(define (add-guest handle state asid policy vek tek tik nonce ms)
-  (hash-set! GCTX handle (list state asid policy vek tek tik nonce ms #f)))
+(define (add-guest handle state asid policy vek tek tik nonce ms  #:vmpl [vmpl 0])
+  (hash-set! GCTX handle (list state asid policy vek tek tik nonce ms vmpl #f)))
 
 ;; Retrieve a guest entry from GCTX
 (define (get-guest handle)
@@ -139,6 +139,94 @@ Maps guest handles to their state and encryption properties
 ;; Delete a VEK from the table
 (define (delete-vek asid)
   (hash-remove! MEKT asid))
+
+;; ----------------------------------
+;; GHCB: Guest-Hypervisor Communication Block
+;; Controls what the guest explicitly exposes to the hypervisor
+(define GHCB (make-hash))
+
+;; GHCB[guest_handle] => 'none | 'partial | 'full
+(define (set-ghcb-state! guest_handle state)
+  (hash-set! GHCB guest_handle state))
+
+(define (get-ghcb-state guest_handle)
+  (hash-ref GHCB guest_handle 'none))
+
+;; ----------------------------------
+;; VMCB: Virtual Machine Control Block (register snapshot)
+(define VMCB (make-hash))
+
+;; Save encrypted register state to VMCB on VMEXIT
+(define (save-registers-to-vmcb guest_handle encrypted-registers)
+  (hash-set! VMCB guest_handle encrypted-registers))
+
+;; Restore register state from VMCB on VMRUN
+(define (load-registers-from-vmcb guest_handle)
+  (hash-ref VMCB guest_handle #f))
+
+;; ----------------------------------
+;; RMP: Reverse Map Table (tracks memory ownership)
+(define RMP (make-hash))
+
+;; Assign page ownership to guest
+(define (assign-page-to-guest phys_addr guest_handle)
+  (hash-set! RMP phys_addr guest_handle))
+
+;; Remove page ownership (e.g., on deallocation)
+(define (unassign-page phys_addr)
+  (hash-remove! RMP phys_addr))
+
+;; Check if a guest owns a given physical page
+(define (owns-page? guest_handle phys_addr)
+  (equal? (hash-ref RMP phys_addr 'none) guest_handle))
+
+;; ----------------------------------
+;; VMPL: Virtual Machine Privilege Level
+(define VMPL (make-hash))
+
+;; Set the VMPL for a guest
+(define (set-vmpl guest_handle level)
+  (hash-set! VMPL guest_handle level))
+
+;; Get the VMPL of a guest
+(define (get-vmpl guest_handle)
+  (hash-ref VMPL guest_handle 0)) ;; Default to highest privilege (VMPL0)
+
+;; Check if current guest has permission (≤ required level)
+(define (has-vmpl-privilege? guest_handle required)
+  (<= (get-vmpl guest_handle) required))
+
+;; ----------------------------------
+;; PageVersion: Track freshness/version of memory pages
+(define PageVersion (make-hash))
+
+;; Set version of a page
+(define (set-page-version phys_addr version)
+  (hash-set! PageVersion phys_addr version))
+
+;; Get version of a page
+(define (get-page-version phys_addr)
+  (hash-ref PageVersion phys_addr 0))
+
+;; ----------------------------------
+;; PVALIDATE Flag Table: Track whether page is validated
+(define PVALIDATE-Flag (make-hash))
+
+;; Mark a page as validated
+(define (mark-page-validated! phys_addr)
+  (hash-set! PVALIDATE-Flag phys_addr #t))
+
+;; Check if a page is validated
+(define (is-page-validated? phys_addr)
+  (hash-ref PVALIDATE-Flag phys_addr #f))
+
+(provide GHCB VMCB RMP VMPL PageVersion PVALIDATE-Flag
+         set-ghcb-state! get-ghcb-state
+         save-registers-to-vmcb load-registers-from-vmcb
+         assign-page-to-guest unassign-page owns-page?
+         set-vmpl get-vmpl has-vmpl-privilege?
+         set-page-version get-page-version
+         mark-page-validated! is-page-validated?)
 
 
 (provide GCTX get-guest-state set-guest-state get-guest SEV_ASID_ALLOC SEV_ASID_FREE SEV_ENCRYPT_PAGE SEV_DECRYPT_PAGE assign-vek delete-vek)
