@@ -10,7 +10,7 @@
 ;; Test Guest Context Table
 (define (test-gctx-add)
   (add-guest 1 'UNINIT 1001 0 1111 2222 3333 4444 5555)
-  (check-equal? (get-guest 1) '(UNINIT 1001 0 1111 2222 3333 4444 5555 #f) "Guest should be initialized"))
+  (check-equal? (get-guest 1) '(UNINIT 1001 0 1111 2222 3333 4444 5555 0 #f) "Guest should be initialized"))
 
 (test-gctx-add)
 
@@ -18,7 +18,7 @@
 ;; Test Guest Context Table
 (define (test-gctx-update)
   (update-guest-state 1 'RUNNING)
-  (check-equal? (get-guest 1) '(RUNNING 1001 0 1111 2222 3333 4444 5555 #f) "Guest state should be updated to RUNNING"))
+  (check-equal? (get-guest 1) '(RUNNING 1001 0 1111 2222 3333 4444 5555 0 #f) "Guest state should be updated to RUNNING"))
 (test-gctx-update)
 
 ;; Test ASID Table
@@ -102,7 +102,7 @@
 (define (test-launch-measure)
   (LAUNCH_MEASURE 2)
   (define guest (get-guest 2))
-  (check-true (not (equal? (list-ref guest 9) #f)) "Measurement should be computed and stored"))
+  (check-true (not (equal? (list-ref guest 10) #f)) "Measurement should be computed and stored"))
   
 
 (printf "DEBUG: Guest before launch-messure: ~a\n" (get-guest 2))
@@ -113,7 +113,7 @@
 (define (test-launch-secret)
   (LAUNCH_SECRET 2 '(0xDEADBEEF))
   (define guest (get-guest 2))
-  (check-true (not (equal? (list-ref guest 9) #f)) "Secrets should be securely injected"))
+  (check-true (not (equal? (list-ref guest 10) #f)) "Secrets should be securely injected"))
 
 (printf "DEBUG: Guest before launch-secret: ~a\n" (get-guest 2))
 (test-launch-secret)
