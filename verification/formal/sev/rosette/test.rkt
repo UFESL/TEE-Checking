@@ -74,6 +74,48 @@
 
 (test-mekt)
 
+;; Test GHCB
+(define (test-ghcb)
+  (set-ghcb-state! 1 'partial)
+  (check-equal? (get-ghcb-state 1) 'partial "GHCB state should be set to partial"))
+(test-ghcb)
+
+;; Test VMCB
+(define (test-vmcb)
+  (save-registers-to-vmcb 1 '(enc-r1 enc-r2))
+  (check-equal? (load-registers-from-vmcb 1) '(enc-r1 enc-r2) "Encrypted registers should be loaded"))
+(test-vmcb)
+
+;; Test RMP
+(define (test-rmp)
+  (assign-page-to-guest #x2000 1001)
+  (check-true (owns-page? 1001 #x2000) "Guest 1 should own page #x2000")
+  (unassign-page #x2000)
+  (check-false (owns-page? 1001 #x2000) "Page #x2000 should be unassigned"))
+(test-rmp)
+
+;; Test VMPL
+(define (test-vmpl)
+  (set-vmpl 1001 2)
+  (check-equal? (get-vmpl 1) 2 "VMPL should be set to 2")
+  (check-true (has-vmpl-privilege? 1 3) "Guest should have lower or equal VMPL access")
+  (check-false (has-vmpl-privilege? 1 1) "Guest should not have higher VMPL access"))
+(test-vmpl)
+
+;; Test Page Version Table
+(define (test-page-version)
+  (set-page-version #x3000 5)
+  (check-equal? (get-page-version #x3000) 5 "Page version should be set to 5"))
+(test-page-version)
+
+;; Test PVALIDATE Flag
+(define (test-pvalidate)
+  (mark-page-validated! #x4000)
+  (check-true (is-page-validated? #x4000) "Page should be marked as validated")
+  (check-false (is-page-validated? #x4001) "Page #x4001 should not be validated"))
+(test-pvalidate)
+
+
 
 ;  TEST CASES for ABIs
 ; (handle = 2, ASID = 1002)
