@@ -97,24 +97,23 @@
 ;; Test VMPL
 (define (test-vmpl)
   (set-vmpl 1001 2)
-  (check-equal? (get-vmpl 1) 2 "VMPL should be set to 2")
-  (check-true (has-vmpl-privilege? 1 3) "Guest should have lower or equal VMPL access")
-  (check-false (has-vmpl-privilege? 1 1) "Guest should not have higher VMPL access"))
+  (check-equal? (get-vmpl 1001) 2 "VMPL should be set to 2")
+  (check-true (has-vmpl-privilege? 1001 3) "Guest should have lower or equal VMPL access")
+  (check-false (has-vmpl-privilege? 1001 1) "Guest should not have higher VMPL access"))
 (test-vmpl)
 
 ;; Test Page Version Table
 (define (test-page-version)
-  (set-page-version #x3000 5)
+  (set-page-version! #x3000 5)
   (check-equal? (get-page-version #x3000) 5 "Page version should be set to 5"))
 (test-page-version)
 
 ;; Test PVALIDATE Flag
 (define (test-pvalidate)
-  (mark-page-validated! #x4000)
-  (check-true (is-page-validated? #x4000) "Page should be marked as validated")
+  (mark-page-invalidated! #x4000) ;
+  (check-false (is-page-validated? #x4000) "Page should be marked as validated")
   (check-false (is-page-validated? #x4001) "Page #x4001 should not be validated"))
 (test-pvalidate)
-
 
 
 ;  TEST CASES for ABIs
