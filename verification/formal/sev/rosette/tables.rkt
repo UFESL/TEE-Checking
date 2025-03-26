@@ -201,7 +201,7 @@ Maps guest handles to their state and encryption properties
 (define PageVersion (make-hash))
 
 ;; Set version of a page
-(define (set-page-version phys_addr version)
+(define (set-page-version! phys_addr version)
   (hash-set! PageVersion phys_addr version))
 
 ;; Get version of a page
@@ -216,6 +216,10 @@ Maps guest handles to their state and encryption properties
 (define (mark-page-validated! phys_addr)
   (hash-set! PVALIDATE-Flag phys_addr #t))
 
+;; Mark a page as invalidated
+(define (mark-page-invalidated! phys_addr)
+  (hash-set! PVALIDATE-Flag phys_addr #f))
+
 ;; Check if a page is validated
 (define (is-page-validated? phys_addr)
   (hash-ref PVALIDATE-Flag phys_addr #f))
@@ -225,11 +229,11 @@ Maps guest handles to their state and encryption properties
          save-registers-to-vmcb load-registers-from-vmcb
          assign-page-to-guest unassign-page owns-page?
          set-vmpl get-vmpl has-vmpl-privilege?
-         set-page-version get-page-version
-         mark-page-validated! is-page-validated?)
+         set-page-version! get-page-version
+         mark-page-validated! mark-page-invalidated! is-page-validated?)
 
 
-(provide GCTX get-guest-state set-guest-state get-guest SEV_ASID_ALLOC SEV_ASID_FREE SEV_ENCRYPT_PAGE SEV_DECRYPT_PAGE assign-vek delete-vek)
+(provide GCTX PEB GSTATE get-guest-state set-guest-state get-guest SEV_ASID_ALLOC SEV_ASID_FREE SEV_ENCRYPT_PAGE SEV_DECRYPT_PAGE assign-vek delete-vek)
 
 (provide add-guest get-guest update-guest-state set-guest-state get-guest-state
          SEV_ASID_ALLOC SEV_ASID_FREE get-asid-owner
