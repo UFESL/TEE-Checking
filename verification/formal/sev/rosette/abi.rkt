@@ -192,6 +192,9 @@
   (assert (>= actual-version expected-version)
           "Rollback detected: Page version is older than expected!")
 
+  ;; 4. Mark page as validated
+  (mark-page-validated! phys_addr)
+
 )
 
 ;; Enforce page validation before allowing guest execution
@@ -207,4 +210,4 @@
   ))
 
 
-(provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION)    
+(provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION PVALIDATE)    

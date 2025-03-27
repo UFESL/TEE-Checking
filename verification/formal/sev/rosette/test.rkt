@@ -189,3 +189,30 @@
 (printf "DEBUG: Guest before deactivate: ~a\n" (get-guest 2))
 (test-deactivate)
 (printf "DEBUG: Guest after deactivate: ~a\n" (get-guest 2))
+
+
+(define (test-pvalidate-pass)
+  (SEV_ENCRYPT_PAGE #x6000)
+  (hash-set! RMP #x6000 2)                 ; Assign page to guest 2
+  (set-page-version! #x6000 1)
+  (mark-page-invalidated! #x6000) ; unvalidated
+  (PVALIDATE #x6000 2 1)                   ; Should pass validation
+  (check-true (is-page-validated? #x6000) "Page should be marked as validated after PVALIDATE"))
+
+(printf "DEBUG: Guest before deactivate: ~a\n" (get-guest 2))
+(test-pvalidate-pass)
+(printf "DEBUG: Guest after deactivate: ~a\n" (get-guest 2))
+
+
+
+(define (test-pvalidate-wrong-owner)
+  (SEV_ENCRYPT_PAGE #x7000)
+  (hash-set! RMP #x7000 2) ; Page belongs to guest 2
+  (set-page-version! #x7000 1)
+  (with-handlers ([exn:fail? (lambda (e) (displayln "Caught expected PVALIDATE failure"))])
+  (PVALIDATE #x7000 1 1))) ; Guest 1 trying to validate → should fail
+
+
+(printf "DEBUG: Guest before deactivate: ~a\n" (get-guest 2))
+(test-pvalidate-wrong-owner)
+(printf "DEBUG: Guest after deactivate: ~a\n" (get-guest 2))
