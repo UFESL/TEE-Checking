@@ -77,13 +77,6 @@ TEE/
 
 ---
 
-## 📚 References
-
-- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
-- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
-
----
-
 ## 🐳 Docker Environment (Recommended)
 
 This project is packaged in a Docker container for reproducible formal analysis.
@@ -128,3 +121,8 @@ Feel free to fork, add more properties, or expand the abstraction to other TEEs.
 ## 📄 License
 
 MIT License.
+
+## 📚 References
+
+- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
+- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
