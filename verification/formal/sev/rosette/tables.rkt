@@ -176,7 +176,11 @@ Maps guest handles to their state and encryption properties
 
 ;; Assign page ownership to guest
 (define (assign-page-to-guest phys_addr guest_handle)
-  (hash-set! RMP phys_addr guest_handle))
+  (if (or (not (hash-has-key? RMP phys_addr))      ; Unassigned page
+          (equal? (hash-ref RMP phys_addr) guest_handle))  ; Reassign to same guest
+      (hash-set! RMP phys_addr guest_handle)
+      (error "RMP violation: Cannot reassign page already owned by another guest")))
+
 
 ;; Remove page ownership (e.g., on deallocation)
 (define (unassign-page phys_addr)

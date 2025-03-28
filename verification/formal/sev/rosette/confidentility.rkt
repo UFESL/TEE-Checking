@@ -204,24 +204,19 @@
   (printf "\n[CP 6] Register state must be encrypted on VMEXIT\n")
   (printf "Property: When a guest VM performs a VMEXIT, its register state must be marked as encrypted.\n\n")
 
-  ;; Declare symbolic guest handle
   (define-symbolic guest-handle integer?)
 
-  ;; Prepare the guest in RUNNING state
+  ;; Prepare the guest in RUNNING state (this is fast-forwarded to RUNNIG state)
   (add-guest guest-handle 'RUNNING 1001 0 0 0 0 0 0)
   (set-guest-state guest-handle 'RUNNING)
 
   ;; Simulate VMEXIT
   (VMEXIT guest-handle)
 
-  ;; Now re-fetch the guest entry
   (define guest-entry (get-guest guest-handle))
-  (define reg-encrypted-flag (list-ref guest-entry 9)) ;; flag index
-
-  ;; Perform solve over symbolic constraint that the flag must NOT be set
+  (define reg-encrypted-flag (list-ref guest-entry 9))
   (define result (solve (assert (not reg-encrypted-flag))))
 
-  ;; Evaluate symbolic values if counterexample exists
   (if (unsat? result)
       (printf "\n ✅ PASS: Register state is correctly encrypted on VMEXIT.\n\n")
       (begin
@@ -230,6 +225,44 @@
                 (evaluate guest-handle result)
                 (evaluate reg-encrypted-flag result)))))
 
+;; ---------------------------
+;; CP 7: Validated Pages Must Not Be Remapped to Another Guest
+;; Property: Once a page is validated by a guest, it must not be reassigned to another guest in the RMP.
+;; ---------------------------
+(define (check-page-remapping-after-validation)
+  (printf "\n[CP 7] Validated pages must not be remapped to another guest\n")
+  (printf "Property: Once a page is validated by a guest, it must not be reassigned to another guest in the RMP.\n\n")
+
+  (define-symbolic guest-A integer?)
+  (define-symbolic guest-B integer?)
+  (define-symbolic page integer?)
+
+  ;; Constraints
+  (define guests-different (not (= guest-A guest-B)))
+
+  ;; Assign page to guest A and validate it
+  (assign-page-to-guest page guest-A)
+  (mark-page-validated! page)
+
+  ;; Attacker (guest B) remaps the page
+  (assign-page-to-guest page guest-B)
+
+  ;; Property: guest-A must still own the page (i.e., no reassignment allowed)
+  (define remapping-violation (not (owns-page? guest-A page)))
+
+  (define result (solve (assert (and guests-different remapping-violation))))
+
+  (printf "DEBUG: Page[~a] validated by guest ~a and reassigned to guest ~a\n"
+          page guest-A guest-B)
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Validated page cannot be reassigned to another guest.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Validated page was reassigned!\n")
+        (printf "Counterexample: guest-A = ~a, guest-B = ~a, page = ~a\n"
+                (evaluate guest-A result)
+                (evaluate guest-B result)
+                (evaluate page result)))))
 
 
 (check-rmp-page-ownership-property)
@@ -238,3 +271,4 @@
 (check-page-validation-before-access)
 (check-memory-encryption-binding-property)
 (check-registers-encrypted-on-vmexit)
+(check-page-remapping-after-validation)
