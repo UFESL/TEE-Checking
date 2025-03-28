@@ -74,14 +74,6 @@ TEE/
 ├── LICENSE
 ├── README.md
 ```
-
----
-
-## 📚 References
-
-- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
-- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
-
 ---
 
 ## 🐳 Setting up with Docker and How to run (Recommended)
@@ -121,6 +113,13 @@ racket confidentility.rkt
 ## 🤝 Contribution
 
 Feel free to fork, add more properties, or expand the abstraction to other TEEs.
+
+---
+
+## 📚 References
+
+- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
+- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
 
 ---
 
