@@ -96,7 +96,7 @@ racket test.rkt
 To run the property checks:
 ```bash
 racket confidentility.rkt   ;; for CP1–CP7
-racket integrity.rkt        ;; for IP1–IP5 (upcoming)
+racket integrity.rkt        ;; for IP1–IP5 
 ```
 
 ### 🖥️ Output Description
