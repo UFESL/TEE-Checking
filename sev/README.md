@@ -71,7 +71,7 @@ racket test.rkt
 
 ## 🔐 Confidentiality & Integrity Properties
 
-### Confidentiality Properties Modeled ✅
+### Confidentiality Properties 
 
 | ID  | Property Description                                                 |
 |-----|----------------------------------------------------------------------|
@@ -83,7 +83,7 @@ racket test.rkt
 | CP6 | Register state must be encrypted on VMEXIT                          |
 | CP7 | Guest cannot access pages assigned to others                        |
 
-### Integrity Properties Planned 🕒
+### Integrity Properties
 
 | ID  | Property Description                                                 |
 |-----|----------------------------------------------------------------------|
