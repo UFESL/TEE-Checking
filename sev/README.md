@@ -116,7 +116,7 @@ This indicates whether symbolic evaluation found a **counterexample**, i.e., a v
 
 ---
 
-## 🐳 Docker Setup
+## 🐳 Docker Setup and How to Run
 
 To run this in a containerized setup:
 
