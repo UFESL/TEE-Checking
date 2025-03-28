@@ -21,24 +21,31 @@ We formally model the **TD lifecycle**, **cache mechanisms**, **TDX-specific dat
 
 ### ✅ Data Structures Modeled
 
-| Name   | Description |
-|--------|-------------|
-| EPT    | Extended Page Table: GPA to HPA mapping, shared/private state |
-| KET    | Key Encryption Table: Maps HKIDs to ephemeral encryption keys |
-| KOT    | KeyID Ownership Table: Tracks HKID lifecycle |
-| TDR    | Trust Domain Root: Root metadata for a TD |
-| PAMT   | Physical Address Metadata Table |
-| TDCS   | Trust Domain Control Structure |
-| Cache  | 4-way associative cache with HKID or TD-owner-bit support |
+| Name            | Description                                                          | Modeled |
+|-----------------|----------------------------------------------------------------------|---------|
+| secure_EPT      | Secure Extended Page Table mapping GPA to HPA and shared/state bits  | ✅      |
+| KET             | Key Encryption Table: maps HKID to ephemeral encryption key          | ✅      |
+| KOT             | KeyID Ownership Table: maps HKID to lifecycle states                 | ✅      |
+| TDR             | Trust Domain Root: metadata for the trust domain                     | ✅      |
+| TDCS            | Trust Domain Control Structure                                       | ✅      |
+| TDVPS           | Trust Domain Virtual Processor State                                 | ✅      |
+| PAMT            | Physical Address Metadata Table with page types and ownership info   | ✅      |
+| Cache           | Holds cache lines with TD_OWNER, HKID, MAC, and DATA fields          | ✅      |
+
 
 ### ✅ ABIs Modeled
 
-| ABI Name               | Description |
-|------------------------|-------------|
-| TDH_MNG_CREATE         | TD creation with HKID assignment |
-| TDH_MNG_KEY_CONFIG     | Key configuration for the TD |
-| TDH_MNG_VPFLUSH        | Flushes VCPU state and cache for TD |
-| TDH_MNG_KEY_FREEID     | Reclaims and tears down TD by freeing HKID |
+| ABI Name                  | Description                                                          | Modeled |
+|---------------------------|----------------------------------------------------------------------|---------|
+| TDH_MNG_CREATE            | Creates TD and assigns HKID                                          | ✅      |
+| TDH_MNG_KEY_CONFIG        | Configures encryption keys for the TD                                | ✅      |
+| TDH_MNG_INIT              | Initializes the TD after key config                                  | ✅      |
+| TDH_MNG_FINALIZE          | Finalizes the TD to make it runnable                                 | ✅      |
+| TDH_VP_ENTER              | Marks TD as running                                                  | ✅      |
+| TDH_MNG_VPFLUSH           | Flushes cache and updates KOT and TDR state                          | ✅      |
+| TDH_MNG_KEY_FREEID        | Frees HKID and transitions TDR to teardown state                     | ✅      |
+| TDH_PHYMEM_PAGE_RECLAIM   | Reclaims physical pages from the TD                                  | ✅      |
+| interrupt / exception     | Handles async exits and flushes cache                                | ✅      |
 
 ---
 
@@ -57,24 +64,37 @@ racket test.rkt
 
 ### Confidentiality Properties
 
-| ID   | Description |
-|------|-------------|
-| cP1  | GPA to HPA mappings in EPT are private |
+| ID   | Property Description |
+|------|-----------------------|
+| cP1  | GPA to HPA mappings in EPT must remain confidential (no aliasing) |
 | cP2  | HKID encryption keys in KET must not be leaked |
-| cP3  | HKID assignment state remains confidential |
-| cP4  | TDR lifecycle state is not observable |
-| cP5  | EPT page states must not leak sensitive mappings |
-| cP6–cP10 | Cover state confidentiality and isolation of key setup |
-| cP11–cP15 | Cache-level confidentiality through HKID/owner-bit tagging |
+| cP3  | HKID assignment state in KOT must remain confidential |
+| cP4  | TDR lifecycle state must remain confidential |
+| cP5  | Page states in secure EPT must remain confidential |
+| cP6  | Key configuration state of HKID must be confidential |
+| cP7  | Finalization status of TDCS must remain confidential |
+| cP8  | Shared bit status in secure EPT entries must be confidential |
+| cP9  | Package configuration bitmap in TDR must remain confidential |
+| cP10 | VCPU to HKID association must remain confidential |
+| cP11 | Incorrect HKID must result in cache miss |
+| cP12 | Correct HKID must result in cache hit |
+| cP13 | Unauthorized HKID should not access populated cache line |
+| cP14 | Cache access should be exclusive to the latest HKID |
+| cP15 | Cache data must remain unchanged unless explicitly modified |
 
 ### Integrity Properties
 
-| ID   | Description |
-|------|-------------|
-| iP1  | EPT mappings cannot be "blocked" incorrectly |
-| iP2  | TDR lifecycle does not regress to INIT or FATAL |
-| iP3  | HKID states follow valid transitions only |
-| iP4–iP9 | Cache integrity properties (validity, uniqueness, owner-bit checks) |
+| ID   | Property Description |
+|------|-----------------------|
+| iP1  | GPA-to-HPA mappings must never be in 'blocked' state |
+| iP2  | Finalized TDR cannot revert to INIT or FATAL state |
+| iP3  | HKID state transitions must follow valid lifecycle (Assigned → Configured → Blocked → Teardown) |
+| iP4  | Valid cache entries must include correct tag and data |
+| iP5  | All valid entries in the same cache set must have unique tags |
+| iP6  | Valid cache entries must map HKID to correct set and way |
+| iP7  | Valid cache entries must include correct TD owner bit |
+| iP8  | Different cache ways in the same set must have different tags |
+| iP9  | Cache entries with the same tag must have the same TD owner bit |
 
 ---
 
