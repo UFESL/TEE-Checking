@@ -77,9 +77,16 @@ TEE/
 
 ---
 
-## 🐳 Docker Environment (Recommended)
+## 📚 References
 
-This project is packaged in a Docker container for reproducible formal analysis.
+- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
+- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
+
+---
+
+## 🐳 Setting up with Docker and How to run (Recommended)
+
+We recommend you to run using docker, alternatively you can install relavent dependancies and run on host machine itself.
 
 ### 🔧 Build the Docker image
 
@@ -97,7 +104,7 @@ Map your local model folder into `/formal` and start an interactive session:
 docker run --volume=/path_to_model:/formal -it rosset:1.0.0
 ```
 
-Once inside, run:
+Once inside, run the relavent files (more details on what to run can be found in each sub-dir):
 
 ```bash
 racket tables.rkt
@@ -107,7 +114,6 @@ or run any of the symbolic property checkers:
 
 ```bash
 racket confidentility.rkt
-racket common.rkt
 ```
 
 ---
@@ -121,8 +127,3 @@ Feel free to fork, add more properties, or expand the abstraction to other TEEs.
 ## 📄 License
 
 MIT License.
-
-## 📚 References
-
-- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
-- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
