@@ -58,7 +58,7 @@ racket abi.rkt
 
 ---
 
-## 🧪 Test Cases and Refinement
+## 🧪 Test Cases and Abstract Refinement
 
 We use `test.rkt` to perform unit tests and validate data structures and transition correctness through abstract refinement.
 
