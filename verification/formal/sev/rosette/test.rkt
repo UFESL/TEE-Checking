@@ -67,10 +67,11 @@
 
 ;; Test Memory Encryption Key Table
 (define (test-mekt)
+  (SEV_ASID_ALLOC 1 1001)
   (assign-vek 1001 #xABCD)
-  (check-equal? (get-vek 1001) #xABCD "VEK for ASID 1001 should be 0xABCD")
+  (check-equal? (get-vek 1 1001) #xABCD "VEK for ASID 1001 should be 0xABCD")
   (delete-vek 1001)
-  (check-false (get-vek 1001) "VEK for ASID 1001 should be deleted"))
+  (check-false (get-vek 1 1001) "VEK for ASID 1001 should be deleted"))
 
 (test-mekt)
 
@@ -173,7 +174,7 @@
 (define (test-activate)
   (ACTIVATE 2)
   (check-equal? (get-guest-state 2) 'RUNNING "Guest should remain in RUNNING state after activation")
-  (check-true (not (equal? (get-vek 1002) #f)) "Encryption key should be assigned"))
+  (check-true (not (equal? (get-vek 2 1002) #f)) "Encryption key should be assigned"))
 
 (printf "DEBUG: Guest before activate: ~a\n" (get-guest 2))
 (test-activate)
@@ -184,7 +185,7 @@
   (DEACTIVATE 2)
   (check-equal? (get-guest-state 2) 'UNINIT "Guest should be in UNINIT state after deactivation")
   (check-false (get-asid-owner 1002) "ASID 1001 should be freed")
-  (check-false (get-vek 1002) "Encryption key should be removed"))
+  (check-false (get-vek 2 1002) "Encryption key should be removed"))
 
 (printf "DEBUG: Guest before deactivate: ~a\n" (get-guest 2))
 (test-deactivate)

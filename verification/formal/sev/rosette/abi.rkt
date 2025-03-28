@@ -197,17 +197,19 @@
 
 )
 
-;; Enforce page validation before allowing guest execution
+;; Guest lifecycle transition function (SEV + SEV-SNP)
 (define (transition-guest handle event)
-  (define current-state (hash-ref GSTATE handle 'UNINIT))
+  (define current-state (get-guest-state handle))
   (match (list current-state event)
-    [(list 'LUPDATE 'PVALIDATE) (set-guest-state handle 'LSECRET)] ;; Page validated, allow state change
-    [(list 'LSECRET 'LAUNCH_FINISH) (set-guest-state handle 'RUNNING)]
-    [(list 'RUNNING 'SEND_START) (set-guest-state handle 'SUPDATE)]
-    [(list 'SUPDATE 'SEND_FINISH) (set-guest-state handle 'SENT)]
-    [(list 'SENT 'DECOMMISSION) (set-guest-state handle 'UNINIT)]
-    [_ (assert #f "Security violation: Invalid guest lifecycle transition!")]
-  ))
+    [(list 'UNINIT 'LAUNCH_START)        (set-guest-state handle 'LUPDATE)]
+    [(list 'LUPDATE 'LAUNCH_UPDATE_DATA) (set-guest-state handle 'LSECRET)]
+    [(list 'LSECRET 'LAUNCH_FINISH)      (set-guest-state handle 'RUNNING)]
+    [(list 'RUNNING 'SEND_START)         (set-guest-state handle 'SUPDATE)]
+    [(list 'SUPDATE 'SEND_FINISH)        (set-guest-state handle 'SENT)]
+    [(list 'SENT 'DECOMMISSION)          (set-guest-state handle 'UNINIT)]
+    [_ (error "Invalid lifecycle transition!")]))
 
 
-(provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION PVALIDATE)    
+
+(provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION PVALIDATE
+         VMEXIT VMRUN transition-guest)    
