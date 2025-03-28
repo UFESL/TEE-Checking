@@ -24,6 +24,8 @@ VM-based TEEs integrate hardware-based protections into virtual machines. Unlike
 - Guest state and register isolation
 - Confidentiality of guest secrets even from hypervisors
 
+Intel TDX and AMD SEV are the state-of-the-art most popular commercially used VM-based TEEs.
+
 ---
 
 ## 📌 Why security guarantees matter
@@ -40,40 +42,37 @@ Hence, **formal verification** ensures these attacks are provably prevented unde
 
 ## 🧩 What’s modeled in this repo?
 
-We build formal models (in Rosette) of:
-
-- **Lifecycle states** (launch, run, send, receive, terminate)
-- **Guest Context**, ASID and encryption key tables
-- **Page validation and RMP logic** (SEV-SNP)
-- **GHCB**, **VMPL**, **Page versioning**, and more
-
-We verify properties such as:
-
-- No ASID reuse without deallocation
-- Memory encryption bound to ASID
-- Register encryption on VMEXIT
-- Page validation before use
-- No unauthorized memory access
+We model guest lifecycle and relavent data structures of AMD-SEV and trust-domain lifecycle and relavent data structures of Intel-TDX. The specific details can be found in each sub directory.
 
 ---
 
-## 🛠 Repository Structure
+## 📂 Repository Structure
 
-```
-verification/src/
-├── sev/        # AMD SEV + SEV-ES + SEV-SNP model and properties
-│   ├── abi.rkt
-│   ├── tables.rkt
-│   ├── confidentility.rkt
-│   ├── common.rkt
-│   └── test.rkt
+```bash
+TEE/
+├── sev/                         # AMD SEV verification suite
+│   ├── doc/                     # Documentation
+│   └── src/                     # Rosette models and properties
+│       ├── abi.rkt              # SEV lifecycle ABI
+│       ├── common.rkt           # Shared utilities
+│       ├── confidentility.rkt   # Confidentiality property checks
+│       ├── tables.rkt           # All key SEV data structures
+│       └── test.rkt             # Unit tests for SEV
 │
-├── tdx/        # Intel TDX model and properties (in progress)
-│   ├── tables.rkt
-│   ├── confidentility.rkt
-│   ├── memory.rkt
-│   ├── common.rkt
-│   └── ...
+├── tdx/                         # Intel TDX verification suite
+│   ├── doc/                     # Documentation
+│   └── src/                     # TDX symbolic model and properties
+│       ├── memory.rkt           # Memory model for TDX
+│       ├── instance1.rkt        # Sample instantiation
+│       ├── tables.rkt           # All key TDX data structures
+│       └── test.rkt             # Unit tests for TDX
+│
+├── util/
+│   └── docker/                  # Docker environment setup
+│       └── Dockerfile
+│
+├── LICENSE
+├── README.md
 ```
 
 ---
