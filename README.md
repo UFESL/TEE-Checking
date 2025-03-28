@@ -1,21 +1,20 @@
 # TEE Verification Framework
 
-## 🔒 What is this repository?
-
-This repository provides **formal modeling and security property verification** of **VM-based Trusted Execution Environments (TEEs)** using [Rosette](https://emina.github.io/rosette/). We build design abstractions for TEEs and use symbolic execution to verify **confidentiality** and **integrity** guarantees throughout the **guest lifecycle**.
+This repository provides **formal modeling and security property verification** of **VM-based Trusted Execution Environments (TEEs)** using [Rosette](https://emina.github.io/rosette/). We build design abstractions for TEEs and use symbolic execution to verify **confidentiality** and **integrity** guarantees of VM-based TEEs.
 
 ### ✨ Key Features
 
-- Abstract modeling of **Intel TDX** and **AMD SEV (including SEV-ES and SEV-SNP)**
-- Symbolic execution using Rosette to simulate lifecycle and attacks
-- Formal **security property specification** and **counterexample checking**
+- Design- and property- based abstraction of **Intel TDX** and **AMD SEV** from Specification
+- Tests to ensure the correctness of model through abstract refinement
+- Generating Confidentiality and Integrity properties from Specification
+- Symbolic execution using Rosette to verify properties.
 - Unified testbench with traceable property failures
 
 ---
 
 ## 🧠 What are TEEs?
 
-**Trusted Execution Environments (TEEs)** provide isolated environments for executing sensitive code and protecting data, even in the presence of a compromised operating system or hypervisor.
+**Trusted Execution Environments (TEEs)** provide isolated environments for executing sensitive code and protecting data, even in the presence of advanced attacker.
 
 ### VM-based TEEs
 
