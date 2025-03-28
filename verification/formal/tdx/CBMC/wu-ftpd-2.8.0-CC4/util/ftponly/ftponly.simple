@@ -1,6 +1,0 @@
-#!/bin/sh
-#
-# ftponly shell
-#
-echo "You are not allowed to login interactively"
-#
