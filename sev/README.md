@@ -71,7 +71,7 @@ racket test.rkt
 
 ## 🔐 Confidentiality & Integrity Properties
 
-### Confidentiality Properties Modeled ✅
+### Confidentiality Properties 
 
 | ID  | Property Description                                                 |
 |-----|----------------------------------------------------------------------|
@@ -83,7 +83,7 @@ racket test.rkt
 | CP6 | Register state must be encrypted on VMEXIT                          |
 | CP7 | Guest cannot access pages assigned to others                        |
 
-### Integrity Properties Planned 🕒
+### Integrity Properties
 
 | ID  | Property Description                                                 |
 |-----|----------------------------------------------------------------------|
@@ -143,9 +143,3 @@ racket confidentility.rkt
 
 - This work assumes the platform firmware (e.g., AMD-SP) behaves correctly and is out of scope.
 - The focus is exclusively on **guest-level behavior modeling**, especially lifecycle and state handling.
-
----
-
-**Author**: Formal Modeling for Secure TEEs  
-**Scope**: AMD SEV + ES + SNP  
-**Goal**: Symbolic Verification of Confidentiality & Integrity Guarantees
