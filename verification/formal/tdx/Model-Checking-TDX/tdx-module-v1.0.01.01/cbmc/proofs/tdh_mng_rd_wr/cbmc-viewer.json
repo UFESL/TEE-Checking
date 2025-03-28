@@ -1,7 +1,0 @@
-{ "expected-missing-functions":
-  [
-
-  ],
-  "proof-name": "tdh_mng_rd_wr",
-  "proof-root": "verification/formal/tdx/Model-Checking-TDX/tdx-module-v1.0.01.01/cbmc/proofs"
-}
