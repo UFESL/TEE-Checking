@@ -201,27 +201,34 @@
 ;; encrypted and the encrypted-registers flag must be set to true.
 ;; ---------------------------
 (define (check-registers-encrypted-on-vmexit)
-  (printf "\n[CP 5] Register state must be encrypted on VMEXIT\n")
+  (printf "\n[CP 6] Register state must be encrypted on VMEXIT\n")
   (printf "Property: When a guest VM performs a VMEXIT, its register state must be marked as encrypted.\n\n")
 
-  (define guest-id 99)
-  (add-guest guest-id 'RUNNING 1001 0 0 0 0 0 0)
-  (set-guest-state guest-id 'RUNNING)
+  ;; Declare symbolic guest handle
+  (define-symbolic guest-handle integer?)
+
+  ;; Prepare the guest in RUNNING state
+  (add-guest guest-handle 'RUNNING 1001 0 0 0 0 0 0)
+  (set-guest-state guest-handle 'RUNNING)
 
   ;; Simulate VMEXIT
-  (VMEXIT guest-id)
+  (VMEXIT guest-handle)
 
-  ;; Retrieve updated guest entry
-  (define guest-entry (get-guest guest-id))
-  (define reg-encrypted-flag (list-ref guest-entry 10)) ;; 10th field: encrypted-registers
+  ;; Now re-fetch the guest entry
+  (define guest-entry (get-guest guest-handle))
+  (define reg-encrypted-flag (list-ref guest-entry 9)) ;; flag index
 
-  ;; Assert that the encrypted-registers flag is true after VMEXIT
-  (define result (verify (assert reg-encrypted-flag)))
+  ;; Perform solve over symbolic constraint that the flag must NOT be set
+  (define result (solve (assert (not reg-encrypted-flag))))
 
+  ;; Evaluate symbolic values if counterexample exists
   (if (unsat? result)
-      (printf "\n ❌ FAIL: Register state is not encrypted on VMEXIT!\n")
-      (printf "\n ✅ PASS: Register state is correctly encrypted on VMEXIT.\n\n"))
-)
+      (printf "\n ✅ PASS: Register state is correctly encrypted on VMEXIT.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Register state is not encrypted on VMEXIT!\n")
+        (printf "Counterexample: guest-handle = ~a, reg-flag = ~a\n"
+                (evaluate guest-handle result)
+                (evaluate reg-encrypted-flag result)))))
 
 
 
