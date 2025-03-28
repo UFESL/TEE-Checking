@@ -11,7 +11,6 @@
 ; (bv28? (bv 3 28))
 
 
-
 (define-symbolic pa1 bv28)
 (define-symbolic repl-way integer?)
 (define-symbolic hkid1 hkid2 integer?)
