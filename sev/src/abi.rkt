@@ -51,7 +51,12 @@
 (define (LAUNCH_FINISH handle)
   (define current-state (get-guest-state handle))
   (when (equal? current-state 'LSECRET)
-    (set-guest-state handle 'RUNNING)))
+    (define guest (get-guest handle))
+    (define has-measurement? (>= (length guest) 10))
+    (define has-secret?     (>= (length guest) 11))
+    (when (and has-measurement? has-secret?)
+      (set-guest-state handle 'RUNNING))))
+
 
 
 ;; ACTIVATE: Assigns ASID and loads encryption keys
@@ -177,11 +182,21 @@
     (set-guest-state handle 'RUNNING)))   ;; Transition guest state    
 
 
+;; Access memory page securely — enforces ownership and validation
+(define (access-page guest-handle phys-addr)
+  (assert (owns-page? guest-handle phys-addr)
+          "Security violation: guest does not own this page!")
+  (assert (is-page-validated? phys-addr)
+          "Security violation: page not validated by guest!")
+  ;; Return the address for further use (optional)
+  phys-addr)
+
+
 ;; PVALIDATE: Validates a guest page before execution
 (define (PVALIDATE phys_addr handle expected-version)
   ;; 1. Check encryption
   (define page-status (hash-ref PEB phys_addr 'UNKNOWN))
-  (assert (equal? page-status 'ENCRYPTED) "Integrity violation: Page not encrypted!")
+  (assert (equal? page-status 'ENCRYPTED) "Confidentiality violation: Page not encrypted!")
 
   ;; 2. Check guest ownership
   (define owner (hash-ref RMP phys_addr #f))
@@ -207,9 +222,9 @@
     [(list 'RUNNING 'SEND_START)         (set-guest-state handle 'SUPDATE)]
     [(list 'SUPDATE 'SEND_FINISH)        (set-guest-state handle 'SENT)]
     [(list 'SENT 'DECOMMISSION)          (set-guest-state handle 'UNINIT)]
-    [_ (error "Invalid lifecycle transition!")]))
+    [_ (assert #f "Invalid lifecycle transition!")]))
 
 
 
 (provide LAUNCH_START LAUNCH_UPDATE_DATA LAUNCH_MEASURE LAUNCH_SECRET LAUNCH_FINISH ACTIVATE DEACTIVATE SEND_START SEND_UPDATE_DATA RECEIVE_UPDATE_DATA DECOMMISSION PVALIDATE
-         VMEXIT VMRUN transition-guest)    
+         VMEXIT VMRUN transition-guest access-page)    

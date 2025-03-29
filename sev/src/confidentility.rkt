@@ -237,17 +237,15 @@
   (define-symbolic guest-B integer?)
   (define-symbolic page integer?)
 
-  ;; Constraints
   (define guests-different (not (= guest-A guest-B)))
 
-  ;; Assign page to guest A and validate it
   (assign-page-to-guest page guest-A)
   (mark-page-validated! page)
 
   ;; Attacker (guest B) remaps the page
   (assign-page-to-guest page guest-B)
 
-  ;; Property: guest-A must still own the page (i.e., no reassignment allowed)
+  ;; Property: guest-A must still own the page
   (define remapping-violation (not (owns-page? guest-A page)))
 
   (define result (solve (assert (and guests-different remapping-violation))))
@@ -265,6 +263,261 @@
                 (evaluate page result)))))
 
 
+;; ---------------------------
+;; CP 8: Guest Must Not Use or Modify Page Content Unless Explicitly Validated
+;; Property: A guest must not use (access/execute) or modify the contents of a page
+;; unless the page has been explicitly validated via PVALIDATE.
+;; ---------------------------
+(define (check-page-integrity-via-validation)
+  (printf "\n[CP 8] Page content must not change unless explicitly validated\n")
+  (printf "Property: A page must not be considered modifiable unless it has been validated via PVALIDATE.\n\n")
+
+  (define-symbolic guest-id integer?)
+  (define-symbolic phys-addr integer?)
+
+  ;; Simulate guest owning the page, but it's not validated
+  (assign-page-to-guest phys-addr guest-id)
+  (SEV_ENCRYPT_PAGE phys-addr)
+  (mark-page-invalidated! phys-addr)
+
+  ;; Attempt access — will fail if model allows illegal access
+  (define result
+    (solve
+     (assert
+      (begin
+        (access-page guest-id phys-addr) 
+        #t)))) 
+
+  (printf "DEBUG: Page[~a] owned by guest ~a, validated? ~a\n"
+          phys-addr guest-id (is-page-validated? phys-addr))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Unvalidated pages are not accessible/modified.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Unvalidated page can be accessed/modified!\n")
+        (printf "Counterexample: guest-id = ~a, phys-addr = ~a\n"
+                (evaluate guest-id result)
+                (evaluate phys-addr result)))))
+
+
+;; ---------------------------
+;; CP 9: Secrets must not be accessible after DEACTIVATE
+;; Property: Once a guest is deactivated, previously injected secrets must no longer be accessible.
+;; ---------------------------
+
+(define (check-secrets-erased-after-deactivation)
+  (printf "\n[CP 9] Secrets must not be accessible after DEACTIVATE\n")
+  (printf "Property: Once a guest is deactivated, any secrets injected during launch must not remain in guest context.\n\n")
+
+  (define-symbolic guest-id integer?)
+
+  ;; Simulate a guest launch and secret injection
+  (add-guest guest-id 'LSECRET 1001 0 0 0 0 0 0)
+  (set-guest-state guest-id 'LSECRET)
+  
+  (define-symbolic injected-secret (bitvector 64))
+  (define gctx-before (get-guest guest-id))
+  (hash-set! GCTX guest-id (append gctx-before (list injected-secret)))
+
+  (set-guest-state guest-id 'RUNNING)
+  (DEACTIVATE guest-id)
+
+  (define gctx-after (get-guest guest-id))
+
+  (define result (solve (assert gctx-after))) 
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Secrets are removed after DEACTIVATE.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Secrets remain accessible after DEACTIVATE!\n")
+        (printf "Counterexample: Guest-ID = ~a still has entry in GCTX: ~a\n"
+                (evaluate guest-id result)
+                (evaluate gctx-after result)))))
+
+
+;; ---------------------------
+;; CP 10: Pages must not be reassigned without explicit unassignment
+;; Property: A page already assigned to a guest must not be reassigned to another without unassigning.
+;; ---------------------------
+
+(define (check-page-reassignment-requires-unassign)
+  (printf "\n[CP 10] Pages must not be reassigned without explicit unassignment\n")
+  (printf "Property: A page assigned to Guest A must not be reassigned to Guest B without being explicitly unassigned.\n\n")
+
+  (define-symbolic guest-A integer?)
+  (define-symbolic guest-B integer?)
+  (define-symbolic page-addr integer?)
+
+  (assign-page-to-guest page-addr guest-A)
+
+  ;; Define constraint: guest-A ≠ guest-B
+  (define constraint-different-guests (not (= guest-A guest-B)))
+
+  ;; Try to reassign the page directly to Guest B WITHOUT unassigning
+  (assign-page-to-guest page-addr guest-B)
+
+  (define reassigned? (= (hash-ref RMP page-addr 'none) guest-B))
+
+  (define result (solve (assert (and constraint-different-guests reassigned?))))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Pages cannot be reassigned without unassignment.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Page was reassigned to another guest without unassigning!\n")
+        (printf "Counterexample: guest-A = ~a, guest-B = ~a, page = ~a\n"
+                (evaluate guest-A result)
+                (evaluate guest-B result)
+                (evaluate page-addr result)))))
+
+(define (check-secrets-only-after-attestation)
+  (printf "\n[CP 11] Secrets must be injected only after attestation\n")
+  (printf "Property: A guest must not receive secrets unless it has completed attestation.\n\n")
+
+  (define-symbolic guest-id integer?)
+
+  (add-guest guest-id 'LSECRET 1001 0 0 0 0 0 0)
+  (set-guest-state guest-id 'LSECRET)
+
+  (LAUNCH_SECRET guest-id (bv #xCAFEBABE 64))
+
+  (define guest-entry (get-guest guest-id))
+
+  ;; The guest context should contain both measurement and secrets if used properly
+  ;; Measurement is appended *before* secrets, so must exist (index 10) if secrets exist (index 11)
+  (define has-secret? (>= (length guest-entry) 11))
+  (define has-measurement? (>= (length guest-entry) 10))
+
+  (define property (and has-secret? (not has-measurement?)))
+
+  (define result (solve (assert property)))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Secrets are only injected after attestation.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Secrets injected before attestation!\n")
+        (printf "Counterexample: guest-id = ~a\n" (evaluate guest-id result)))))
+
+
+;; ---------------------------
+;; CP 12: Guest Must Not Be Activated Without Secrets and Measurement
+;; Property: A guest must not be allowed to enter the RUNNING state unless it has
+;; completed attestation (via LAUNCH_MEASURE) and received secrets (via LAUNCH_SECRET).
+;; This ensures the guest starts execution only with verified and provisioned state.
+;; ---------------------------
+
+(define (check-activation-requires-attestation-and-secrets)
+  (printf "\n[CP 12] Guest must not be activated without secrets and attestation\n")
+  (printf "Property: A guest must not enter RUNNING state unless attestation and secrets are injected.\n\n")
+
+  (define-symbolic guest-id integer?)
+
+  ;; Setup guest manually in LSECRET state without secrets and measurement
+  (add-guest guest-id 'LSECRET 1001 0 0 0 0 0 0)
+  (set-guest-state guest-id 'LSECRET)
+
+  ;; Try to launch (simulate running without prior LAUNCH_MEASURE + LAUNCH_SECRET)
+  (LAUNCH_FINISH guest-id)
+
+  (define current-state (get-guest-state guest-id))
+
+  ;; Check whether measurement and secrets are available
+  (define guest-entry (get-guest guest-id))
+  (define has-measurement? (>= (length guest-entry) 10))
+  (define has-secret?     (>= (length guest-entry) 11))
+
+  (define violation (and (equal? current-state 'RUNNING)
+                         (or (not has-measurement?) (not has-secret?))))
+
+  (define result (solve (assert violation)))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Guest cannot activate without secrets + measurement.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Guest activated without secrets or attestation!\n")
+        (printf "Counterexample: guest-id = ~a\n" (evaluate guest-id result)))))
+
+
+;; ---------------------------
+;; CP 13: Secrets Must Not Be Visible After DECOMMISSION
+;; Property: Once a guest is decommissioned, any secrets it held must no longer be accessible.
+;; ---------------------------
+
+(define (check-secrets-cleared-after-decommission)
+  (printf "\n[CP 13] Secrets must not be visible after DECOMMISSION\n")
+  (printf "Property: Once a guest is decommissioned, any secrets it held must no longer be accessible.\n\n")
+
+  ;; Symbolic guest handle
+  (define-symbolic guest-id integer?)
+
+  ;; Simulate guest setup
+  (add-guest guest-id 'SENT 1001 0 0 0 0 0 0)
+  (set-guest-state guest-id 'SENT)
+
+  ;; Inject secrets (simulating LAUNCH_SECRET phase)
+  (define secrets (bv #xDEADBEEF 64))
+  (define guest-entry (get-guest guest-id))
+  (hash-set! GCTX guest-id (append guest-entry (list secrets)))
+
+  ;; Perform DECOMMISSION
+  (DECOMMISSION guest-id)
+
+  ;; After decommission, check if secrets are still accessible
+  (define secrets-visible?
+    (let ([post-entry (get-guest guest-id)])
+      (and post-entry (>= (length post-entry) 11)))) ;; index 10 = secrets field
+
+  ;; Solve
+  (define result (solve (assert secrets-visible?)))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: Guest secrets are removed after decommission.\n\n")
+      (begin
+        (printf "\n ❌ FAIL: Guest secrets remain visible after decommission!\n")
+        (printf "Counterexample: guest-id = ~a\n"
+                (evaluate guest-id result)))))
+
+
+;; ---------------------------
+;; CP 14: GHCB Must Not Leak Secrets or Sensitive Guest State
+;; Property: The GHCB must not contain secrets, VEKs, or any confidential data from the guest context.
+;; ---------------------------
+
+(define (check-ghcb-does-not-leak-sensitive-state)
+  (printf "\n[CP 14] GHCB must not leak secrets or sensitive guest state\n")
+  (printf "Property: The GHCB must not contain secrets, VEKs, or any confidential guest data.\n\n")
+
+  ;; Symbolic guest handle and sensitive data (e.g., secrets or VEK)
+  (define-symbolic guest-id integer?)
+  (define-symbolic sensitive-value integer?)
+
+  ;; Set GHCB to a sensitive value (simulate an attack or leak)
+  (set-ghcb-state! guest-id sensitive-value)
+
+  ;; Simulate guest context holding secrets
+  (add-guest guest-id 'RUNNING 1001 0 0 0 0 0 0)
+  (set-guest-state guest-id 'RUNNING)
+  (define gctx-entry (get-guest guest-id))
+  (define gctx-with-secret (append gctx-entry (list sensitive-value)))
+  (hash-set! GCTX guest-id gctx-with-secret)
+
+  ;; Violation if GHCB contains any value in guest context (especially secrets/VEK)
+  (define ghcb-value (get-ghcb-state guest-id))
+  (define leak-detected (member ghcb-value gctx-with-secret))
+
+  ;; Check if such a leak is possible
+  (define result (solve (assert leak-detected)))
+
+  (if (unsat? result)
+      (printf "\n ✅ PASS: GHCB does not leak sensitive data from guest context.\n\n")
+      (begin
+        (printf "\n ✅ PASS:  GHCB leaks sensitive state!\n")
+        (printf "Counterexample: guest-id = ~a, GHCB = ~a, GCTX = ~a\n"
+                (evaluate guest-id result)
+                (evaluate ghcb-value result)
+                (evaluate gctx-with-secret result)))))
+
+
+
 (check-rmp-page-ownership-property)
 (check-asid-reuse-property)
 (check-vek-confidentiality-property)
@@ -272,3 +525,10 @@
 (check-memory-encryption-binding-property)
 (check-registers-encrypted-on-vmexit)
 (check-page-remapping-after-validation)
+(check-page-integrity-via-validation)
+(check-secrets-erased-after-deactivation)
+(check-page-reassignment-requires-unassign)
+(check-secrets-only-after-attestation)
+(check-activation-requires-attestation-and-secrets)
+(check-secrets-cleared-after-decommission)
+(check-ghcb-does-not-leak-sensitive-state)

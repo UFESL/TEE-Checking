@@ -153,6 +153,8 @@ Maps guest handles to their state and encryption properties
 
 ;; GHCB[guest_handle] => 'none | 'partial | 'full
 (define (set-ghcb-state! guest_handle state)
+  (assert (not (member state (hash-ref GCTX guest_handle '())))
+          "GHCB must not contain sensitive guest context values!")
   (hash-set! GHCB guest_handle state))
 
 (define (get-ghcb-state guest_handle)
@@ -212,7 +214,10 @@ Maps guest handles to their state and encryption properties
 
 ;; Set version of a page
 (define (set-page-version! phys_addr version)
-  (hash-set! PageVersion phys_addr version))
+  (define current (get-page-version phys_addr))
+  (when (>= version current)
+    (hash-set! PageVersion phys_addr version)))
+
 
 ;; Get version of a page
 (define (get-page-version phys_addr)
