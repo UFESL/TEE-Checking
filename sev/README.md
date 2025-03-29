@@ -71,27 +71,39 @@ racket test.rkt
 
 ## 🔐 Confidentiality & Integrity Properties
 
-### Confidentiality Properties 
+### ✅ Confidentiality Properties
 
-| ID  | Property Description                                                 |
-|-----|----------------------------------------------------------------------|
-| CP1 | Only the assigned guest may access a page (RMP check)               |
-| CP2 | No ASID reuse without deallocation                                  |
-| CP3 | VEK key must not be reused across guests                            |
-| CP4 | Page access requires prior validation (via PVALIDATE)               |
-| CP5 | Memory encryption must not allow cross-ASID decryption              |
-| CP6 | Register state must be encrypted on VMEXIT                          |
-| CP7 | Guest cannot access pages assigned to others                        |
+| ID   | Property Description                                                                 |
+|------|----------------------------------------------------------------------------------------|
+| CP1  | Only the assigned guest may access a page (RMP check)                                 |
+| CP2  | No ASID reuse without explicit deallocation                                           |
+| CP3  | Only the ASID owner may retrieve its VEK                                              |
+| CP4  | Page access requires prior validation (via PVALIDATE)                                 |
+| CP5  | Memory encrypted by one ASID must not be decrypted using another ASID                 |
+| CP6  | Register state must be encrypted on VMEXIT                                            |
+| CP7  | Validated pages must not be remapped to another guest                                 |
+| CP8  | Guest must not use or modify page content unless it has been explicitly validated     |
+| CP9  | Secrets must not be accessible after DEACTIVATE                                       |
+| CP10 | Pages must not be reassigned without explicit unassignment                            |
+| CP11 | Secrets must only be injected after attestation                                       |
+| CP12 | Guest must not be activated without secrets and attestation                           |
+| CP13 | Secrets must not be visible after DECOMMISSION                                        |
+| CP14 | GHCB must not leak secrets or sensitive guest state                                   |
 
-### Integrity Properties
+---
 
-| ID  | Property Description                                                 |
-|-----|----------------------------------------------------------------------|
-| IP1 | VMPL access control: VMPLi must not access pages of VMPLj > i       |
-| IP2 | Pages must not be reassigned without deallocation                   |
-| IP3 | Pages must be validated before execution                            |
-| IP4 | Transition to RUNNING must only occur after proper LAUNCH sequence |
-| IP5 | Registers must be restored only for the correct guest               |
+### 🔐 Integrity Properties
+
+| ID   | Property Description                                                                 |
+|------|----------------------------------------------------------------------------------------|
+| IP1  | Guest must not skip mandatory launch states                                           |
+| IP2  | State transitions must be atomic                                                      |
+| IP3  | Secrets must not persist through migration                                            |
+| IP4  | PVALIDATE must fail if encryption or RMP ownership is incorrect                       |
+| IP5  | Guest must not rollback to a prior lifecycle state                                    |
+| IP6  | VEKs must not be reassigned or mutated once issued                                    |
+| IP7  | Page version must be monotonic to prevent rollback attacks                            |
+
 
 To run the property checks:
 ```bash
