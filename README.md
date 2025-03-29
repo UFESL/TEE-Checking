@@ -110,16 +110,10 @@ racket confidentility.rkt
 
 ---
 
-## 🤝 Contribution
-
-Feel free to fork, add more properties, or expand the abstraction to other TEEs.
-
----
-
 ## 📚 References
 
-- **AMD SEV-SNP**: [AMD SEV-SNP Architecture Guide (PDF)](https://www.amd.com/system/files/TechDocs/56860.pdf)
-- **Intel TDX**: [Intel TDX Key Concepts](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)
+- **AMD SEV**: [AMD Secure Encrypted Virtualization (SEV) Specification](https://www.amd.com/en/developer/sev.html)
+- **Intel TDX**: [Intel® Trust Domain Extensions Specification](https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/documentation.html)
 
 ---
 
